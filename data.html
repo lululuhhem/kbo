@@ -29,6 +29,7 @@ code{background:#0d1526;padding:1px 6px;border-radius:6px}
 <li>표의 <b>제목 줄(순위·선수명·팀명…)부터 마지막 줄까지</b> 드래그해서 복사 → 아래 칸에 붙여 넣기. 여러 번 이어 붙여도 돼요.</li>
 <li>타자는 <b>기본기록1, 기본기록2</b>(볼넷·삼진), <b>주루</b>(도루) 표를 모두 붙이면 더 정확해요.</li>
 <li>수비 표를 붙이면 그 선수가 2026년에 실제로 뛴 <b>포지션</b>이 정해져요. (수비 표가 없으면 기존 포지션 유지)</li>
+<li>투수 역할은 자동 분류: 선발(SP) / 마무리(CP: 세이브 10개 이상 또는 팀 세이브 1위) / 중간(RP). 투수 표에 SV·HLD·GS 열이 있어야 정확해요.</li>
 <li>[계산하기] → 확인 → [players.js 내려받기] → GitHub 저장소의 players.js 와 바꿔 올리기</li>
 </ol></div>
 
@@ -101,8 +102,12 @@ $('#go').onclick=()=>{
     const G=o.st.G||1,ipg=outs/3/G;let role;
     if(o.st.GS!=null)role=o.st.GS>=G*0.6?['SP']:o.st.GS>0?['SP','RP']:['RP'];
     else role=ipg>=4.2?['SP']:ipg>=2.2?['SP','RP']:['RP'];
+    if(!role.includes('SP')&&(o.st.SV||0)>=10)role=['CP'];
     pitchers.push({n:o.n,t:o.t,role,th:prev?prev.th:'R',st:o.st,v:1,f:isF(o.n)?1:0});seen.add('P'+k);
   });
+  // 마무리(CP): 불펜 중 세이브 10개 이상, 또는 팀 세이브 1위(4세이브 이상) / 나머지 불펜은 RP(중간)
+  {const rel=pitchers.filter(p=>!p.role.includes('SP')&&p.role.includes('RP')||p.role[0]==='CP');
+   [...new Set(rel.map(p=>p.t))].forEach(t=>{const top=rel.filter(p=>p.t===t).sort((a,b)=>((b.st.SV)||0)-((a.st.SV)||0))[0];if(top&&(top.st.SV||0)>=4)top.role=['CP']});}
   if($('#keep').checked){
     old.hitters.forEach(h=>{if(!seen.has('H'+h.n+'@'+h.t)&&!pitchers.some(p=>p.n===h.n&&p.t===h.t))hitters.push(h)});
     old.pitchers.forEach(p=>{if(!seen.has('P'+p.n+'@'+p.t)&&!hitters.some(h=>h.n===p.n&&h.t===p.t&&h.v))pitchers.push(p)});
