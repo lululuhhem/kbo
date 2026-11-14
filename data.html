@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>선수 데이터 넣기 — KBO 감독 리그</title>
+<style>
+body{margin:0;background:#0b1220;color:#eef2f8;font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;font-size:18px;line-height:1.5}
+.w{max-width:900px;margin:0 auto;padding:14px}
+h1{font-size:28px}h2{font-size:21px;margin:0 0 8px}
+.card{background:#131c2e;border:1px solid #24314a;border-radius:16px;padding:14px;margin:12px 0}
+textarea{width:100%;box-sizing:border-box;min-height:150px;font-size:15px;background:#0d1526;color:#eef2f8;border:1.5px solid #24314a;border-radius:12px;padding:10px;font-family:monospace}
+.btn{font:inherit;font-weight:700;border:0;border-radius:12px;padding:12px 16px;background:#3b82f6;color:#fff;cursor:pointer;margin:6px 6px 0 0}
+.btn.g{background:#22c55e;color:#05220f}.btn.x{background:transparent;border:1.5px solid #24314a;color:#eef2f8}
+.sub{color:#9fb0c8;font-size:15px}ol li{margin:6px 0}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{border-bottom:1px solid #24314a;padding:4px 6px;text-align:center;white-space:nowrap}th{color:#9fb0c8}
+.tbl{overflow:auto;max-height:420px}.ok{color:#22c55e;font-weight:700}.bad{color:#f87171;font-weight:700}
+code{background:#0d1526;padding:1px 6px;border-radius:6px}
+</style>
+</head>
+<body><div class="w">
+<h1>📥 선수 데이터 넣기</h1>
+<p class="sub">KBO 기록실(koreabaseball.com) 표를 복사해 붙여 넣으면, 2026 최종 기록으로 능력치·연봉·포지션을 계산해 새 <code>players.js</code> 파일을 만들어 줘요. PC에서 하는 게 편해요.</p>
+
+<div class="card"><h2>하는 방법</h2><ol>
+<li>KBO 홈페이지 → <b>기록실</b> → <b>선수기록</b> → 타자 / 투수 / 수비 선택</li>
+<li>시즌 <b>2026</b>, 팀을 하나씩 고르면 그 팀 선수가 나와요. (페이지가 여러 개면 페이지마다)</li>
+<li>표의 <b>제목 줄(순위·선수명·팀명…)부터 마지막 줄까지</b> 드래그해서 복사 → 아래 칸에 붙여 넣기. 여러 번 이어 붙여도 돼요.</li>
+<li>타자는 <b>기본기록1, 기본기록2</b>(볼넷·삼진), <b>주루</b>(도루) 표를 모두 붙이면 더 정확해요.</li>
+<li>수비 표를 붙이면 그 선수가 2026년에 실제로 뛴 <b>포지션</b>이 정해져요. (수비 표가 없으면 기존 포지션 유지)</li>
+<li>[계산하기] → 확인 → [players.js 내려받기] → GitHub 저장소의 players.js 와 바꿔 올리기</li>
+</ol></div>
+
+<div class="card"><h2>① 타자 기록</h2><textarea id="tH" placeholder="순위	선수명	팀명	AVG	G	PA	AB	R	H	2B	3B	HR	TB	RBI	SAC	SF ..."></textarea></div>
+<div class="card"><h2>② 투수 기록</h2><textarea id="tP" placeholder="순위	선수명	팀명	ERA	G	W	L	SV	HLD	WPCT	IP	H	HR	BB	HBP	SO	R	ER	WHIP ..."></textarea></div>
+<div class="card"><h2>③ 수비 기록 (포지션)</h2><textarea id="tD" placeholder="순위	선수명	팀명	POS	G	GS	IP	E	PKO	PO	A	DP	FPCT ..."></textarea></div>
+<div class="card"><h2>④ 외국인 선수 이름</h2><p class="sub">여기 적힌 이름(팀명 없이)은 외국인으로 따로 뽑혀요. 쉼표로 구분.</p><textarea id="tF" style="min-height:80px"></textarea></div>
+<div class="card">
+<label><input type="checkbox" id="keep" checked> 붙여 넣지 않은 선수는 기존 데이터 그대로 두기</label><br>
+<label><input type="checkbox" id="minpa" checked> 너무 적게 뛴 선수 빼기 (타자 30타석 / 투수 10이닝 미만)</label><br>
+<button class="btn g" id="go">🧮 계산하기</button><button class="btn" id="dl" disabled>💾 players.js 내려받기</button>
+<div id="msg" style="margin-top:10px"></div>
+</div>
+<div class="card"><h2>미리 보기</h2><div class="tbl" id="pv"><p class="sub">계산하면 여기에 나와요</p></div></div>
+</div>
+<script src="ratings.js"></script>
+<script src="players.js"></script>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const TEAMS={'KT':'KT','kt':'KT','삼성':'삼성','LG':'LG','KIA':'KIA','기아':'KIA','두산':'두산','한화':'한화','SSG':'SSG','롯데':'롯데','NC':'NC','키움':'키움'};
+const POS={'포수':'C','1루수':'1B','2루수':'2B','3루수':'3B','유격수':'SS','좌익수':'LF','중견수':'CF','우익수':'RF','C':'C','1B':'1B','2B':'2B','3B':'3B','SS':'SS','LF':'LF','CF':'CF','RF':'RF'};
+const KNOWN_F=(window.KBO_PLAYERS?[...KBO_PLAYERS.hitters,...KBO_PLAYERS.pitchers].filter(p=>p.f).map(p=>p.n.replace(/^(오웬|미치|로건|엘빈) /,'')):[]);
+$('#tF').value=[...new Set(KNOWN_F.concat(['로드리게스','화이트','앨런']))].join(', ');
+const AL={name:['선수명','선수','이름','name','player'],team:['팀명','팀','team','tm'],G:['G','경기'],PA:['PA','타석'],AB:['AB','타수'],R:['R','득점'],H:['H','안타','피안타'],'2B':['2B','2루타'],'3B':['3B','3루타'],HR:['HR','홈런','피홈런'],RBI:['RBI','타점'],BB:['BB','볼넷'],IBB:['IBB','고의4구'],HBP:['HBP','사구','몸에맞는공'],SO:['SO','삼진','K','탈삼진'],SB:['SB','도루'],CS:['CS','도루실패'],AVG:['AVG','타율'],ERA:['ERA','평균자책'],W:['W','승'],L:['L','패'],SV:['SV','세이브'],HLD:['HLD','홀드'],IP:['IP','이닝'],ER:['ER','자책'],GS:['GS','선발'],POS:['POS','포지션'],E:['E','실책'],FPCT:['FPCT','수비율']};
+function parse(text){
+  const lines=text.split(/\r?\n/).map(l=>l.replace(/ /g,' ')).filter(l=>l.trim());
+  const out=[];let head=null;
+  const split=l=>l.includes('\t')?l.split('\t').map(x=>x.trim()):l.trim().split(/\s{2,}|,/).map(x=>x.trim());
+  for(const l of lines){
+    const c=split(l);
+    if(c.some(x=>AL.name.includes(x))){head=c.map(h=>{for(const k in AL)if(AL[k].includes(h))return k;return h});continue}
+    if(!head)continue;
+    // 이닝 "146 1/3" 이 공백 split 로 둘로 나뉜 경우 보정
+    const row={};let j=0;
+    for(let i=0;i<head.length&&j<c.length;i++,j++){let v=c[j];if(head[i]==='IP'&&c[j+1]&&/^\d\/3$/.test(c[j+1])){v=v+' '+c[j+1];j++}row[head[i]]=v}
+    if(!row.name||!row.team)continue;
+    row.team=TEAMS[row.team]||row.team;
+    out.push(row);
+  }
+  return out;
+}
+const num=v=>{if(v==null||v==='')return null;const n=parseFloat(String(v).replace(/,/g,''));return isNaN(n)?null:n};
+let RESULT=null;
+$('#go').onclick=()=>{
+  const fset=new Set($('#tF').value.split(/[,\n]/).map(s=>s.trim()).filter(Boolean));
+  const isF=n=>fset.has(n)||fset.has(n.replace(/^(오웬|미치|로건|엘빈) /,''));
+  const old=window.KBO_PLAYERS||{hitters:[],pitchers:[]};
+  const H={},P={},D={};
+  parse($('#tH').value).forEach(r=>{const k=r.name+'@'+r.team;const o=H[k]||(H[k]={n:r.name,t:r.team,st:{}});['G','PA','AB','R','H','2B','3B','HR','RBI','BB','IBB','HBP','SO','SB','CS'].forEach(f=>{const v=num(r[f]);if(v!=null)o.st[f]=v})});
+  parse($('#tP').value).forEach(r=>{const k=r.name+'@'+r.team;const o=P[k]||(P[k]={n:r.name,t:r.team,st:{}});['G','GS','W','L','SV','HLD','H','HR','BB','HBP','SO','ER'].forEach(f=>{const v=num(r[f]);if(v!=null)o.st[f]=v});if(r.IP)o.st.IP=r.IP;const e=num(r.ERA);if(e!=null)o.st.ERA=e});
+  parse($('#tD').value).forEach(r=>{const p=POS[r.POS];if(!p)return;const k=r.name+'@'+r.team;const o=D[k]||(D[k]={pos:{},fp:[]});o.pos[p]=(o.pos[p]||0)+(num(r.G)||1);const fp=num(r.FPCT);if(fp!=null)o.fp.push([p,fp,num(r.G)||1])});
+  const posAvgFP={C:.992,'1B':.993,'2B':.982,'3B':.955,SS:.965,LF:.985,CF:.988,RF:.985};
+  const posBase={C:60,'1B':50,'2B':60,'3B':58,SS:64,LF:54,CF:62,RF:56};
+  const defOf=d=>{if(!d||!d.fp.length)return null;let s=0,w=0;d.fp.forEach(([p,fp,g])=>{const v=(posBase[p]||55)+(fp-(posAvgFP[p]||.98))*900;s+=v*g;w+=g});return Math.round(Math.max(25,Math.min(95,s/w)))};
+  const hitters=[],pitchers=[];const seen=new Set();
+  const minpa=$('#minpa').checked;
+  Object.entries(H).forEach(([k,o])=>{
+    if(!o.st.PA&&o.st.AB)o.st.PA=o.st.AB+(o.st.BB||0)+(o.st.HBP||0);
+    if(minpa&&(o.st.PA||0)<30)return;
+    const prev=old.hitters.find(x=>x.n===o.n&&x.t===o.t);
+    const d=D[k];let pos=d?Object.keys(d.pos):(prev?prev.pos:[]);
+    if(!pos.length)pos=['1B'];
+    const def=defOf(d);o.st.DEF=def!=null?def:(prev&&prev.r?prev.r.d:(prev&&prev.st&&prev.st.DEF)||55);
+    hitters.push({n:o.n,t:o.t,pos,b:prev?prev.b:'R',st:o.st,v:1,f:isF(o.n)?1:0});seen.add('H'+k);
+  });
+  Object.entries(P).forEach(([k,o])=>{
+    const outs=KBORatings.ipToOuts(o.st.IP);if(minpa&&outs<30)return;
+    const prev=old.pitchers.find(x=>x.n===o.n&&x.t===o.t);
+    const G=o.st.G||1,ipg=outs/3/G;let role;
+    if(o.st.GS!=null)role=o.st.GS>=G*0.6?['SP']:o.st.GS>0?['SP','RP']:['RP'];
+    else role=ipg>=4.2?['SP']:ipg>=2.2?['SP','RP']:['RP'];
+    pitchers.push({n:o.n,t:o.t,role,th:prev?prev.th:'R',st:o.st,v:1,f:isF(o.n)?1:0});seen.add('P'+k);
+  });
+  if($('#keep').checked){
+    old.hitters.forEach(h=>{if(!seen.has('H'+h.n+'@'+h.t)&&!pitchers.some(p=>p.n===h.n&&p.t===h.t))hitters.push(h)});
+    old.pitchers.forEach(p=>{if(!seen.has('P'+p.n+'@'+p.t)&&!hitters.some(h=>h.n===p.n&&h.t===p.t&&h.v))pitchers.push(p)});
+  }
+  RESULT={updated:new Date().toISOString().slice(0,10),note:'KBO 기록실 2026 기록'+($('#keep').checked?' + 기존 데이터':''),hitters,pitchers};
+  const nv=hitters.filter(h=>h.v).length+pitchers.filter(p=>p.v).length;
+  const dom=[...hitters,...pitchers].filter(x=>!x.f);
+  const sp=pitchers.filter(p=>!p.f&&p.role.includes('SP')).length;
+  $('#msg').innerHTML=`<span class="ok">타자 ${Object.keys(H).length}명 · 투수 ${Object.keys(P).length}명 · 수비 ${Object.keys(D).length}명 읽음</span><br>최종: 타자 ${hitters.length} · 투수 ${pitchers.length} (실제 기록 ${nv}명) · 국내 ${dom.length}명 · 국내 선발 가능 ${sp}명<br>`+(sp<50?'<span class="bad">⚠️ 국내 선발투수가 50명 미만이면 10팀 리그는 못 해요</span>':'');
+  const R=KBORatings;
+  const rows=[...hitters.map(h=>{const r=h.st?R.hitterRatings(h.st):h.r;const o=R.hitterOvr(r,h.pos);return[h,`${h.pos.join(',')}`,`컨${r.c} 파${r.p} 선${r.e} 주${r.s} 수${r.d}`,o]}),...pitchers.map(p=>{const r=p.st?R.pitcherRatings(p.st,p.role):p.r;const o=R.pitcherOvr(r,p.role);return[p,p.role.join(','),`구${r.stf} 제${r.ctl} 체${r.sta}`,o]})].sort((a,b)=>b[3]-a[3]);
+  $('#pv').innerHTML=`<table><tr><th>이름</th><th>팀</th><th>포지션</th><th>능력치</th><th>종합</th><th>연봉</th><th>구분</th></tr>${rows.map(([p,pos,rt,o])=>`<tr><td>${esc(p.n)}</td><td>${esc(p.t)}</td><td>${pos}</td><td>${rt}</td><td>${o}</td><td>${R.salary(o)}억</td><td>${p.f?'외국인':''}${p.v?' 실기록':' 추정'}</td></tr>`).join('')}</table>`;
+  $('#dl').disabled=false;
+};
+$('#dl').onclick=()=>{
+  if(!RESULT)return;
+  const js='/* KBO 감독 리그 선수 데이터 — data.html 로 생성 */\nwindow.KBO_PLAYERS = '+JSON.stringify(RESULT)+';\n';
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([js],{type:'application/javascript'}));a.download='players.js';a.click();
+};
+</script>
+</body></html>
