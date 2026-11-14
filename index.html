@@ -330,6 +330,34 @@ details summary{color:var(--sub);padding:10px 0;font-size:14px}
 .pseq2{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}.pseq2 .pc{font-size:11px;font-weight:600;background:rgba(255,255,255,.06);border-radius:6px;padding:2px 6px;color:var(--tx)}.pseq2 .pc i{font-style:normal;margin-left:4px;color:var(--sub)}
 .pseq2 .pc.B i{color:#4ade80}.pseq2 .pc.S i,.pseq2 .pc.W i{color:#f87171}.pseq2 .pc.X i{color:#60a5fa}
 .formtag{font-size:12px;font-weight:700;border-radius:8px;padding:4px 10px;margin:-2px 0 8px;display:inline-block}.formtag.hot{background:rgba(249,115,22,.15);color:#fb923c}.formtag.cold{background:rgba(59,130,246,.15);color:#93c5fd}
+.av .avi{position:absolute;inset:0;border-radius:50%;overflow:hidden;background:#eef0f3}
+.av .avi img{position:absolute;max-width:none;height:auto;display:block}
+.mpos{display:inline-block;font-size:11px;font-weight:800;color:#0c0d10;background:#fbbf24;border-radius:5px;padding:0 5px;margin-left:4px;vertical-align:1px}
+.lrow .mpos{flex:none;margin:0}
+.fit{font-style:normal;font-size:11px;font-weight:700;border-radius:5px;padding:0 5px;margin-left:4px}.fit.ok{background:rgba(52,211,153,.18);color:var(--good)}.fit.no{background:rgba(248,113,113,.18);color:var(--bad)}
+.lfp.tap{cursor:pointer;animation:tapg 1.6s ease-in-out infinite}.lfp.tap .av{box-shadow:0 0 0 3px #fbbf24}
+@keyframes tapg{0%,100%{filter:none}50%{filter:brightness(1.25)}}
+.lhint{position:absolute;left:8px;right:8px;top:8px;z-index:3;background:rgba(251,191,36,.95);color:#111;font-size:12px;font-weight:800;border-radius:8px;padding:5px 8px;text-align:center}
+.lorder{display:flex;gap:6px;overflow-x:auto;padding:8px 2px;align-items:center}.lorder>span{font-size:12px;color:var(--sub);flex:none;font-weight:700}
+.lorder button{flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--card2);border:0;border-radius:10px;padding:6px 6px;color:var(--tx);font:inherit;cursor:pointer;min-width:64px}.lorder b{font-size:11px}.lorder em{font-style:normal;font-size:10px;color:var(--sub)}
+.lfp b{font-size:11px;max-width:74px}
+.mbox.intro{max-width:760px}
+.lintro .lit{font-size:13px;color:var(--sub);font-weight:700;text-align:center}
+.livs{display:flex;align-items:center;justify-content:center;gap:14px;margin:8px 0 14px}.livs span{font-size:24px;font-weight:900;border-bottom:4px solid var(--tc);padding:0 4px 2px}.livs em{font-style:normal;font-weight:900;color:var(--acc);font-size:18px}
+.ligrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lic{background:var(--card2);border-radius:14px;padding:10px;border-top:4px solid var(--tc);min-width:0}
+.lih{display:flex;justify-content:space-between;align-items:baseline;gap:6px;margin-bottom:8px}.lih b{font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.lih span{font-size:11px;color:var(--sub);flex:none}
+.lisp{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.04);border-radius:10px;padding:6px;margin-bottom:8px}.lisp>div{min-width:0}.lisp em{display:block;font-style:normal;font-size:10px;color:var(--sub)}.lisp b{display:block;font-size:15px}.lisp span:not(.av){display:block;font-size:10px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lib{display:flex;align-items:center;gap:6px;padding:3px 0}.lio{width:14px;font-size:12px;color:var(--sub);font-weight:700}.lib b{flex:1;font-size:13px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.lib em{font-style:normal;font-size:11px;color:var(--sub)}.lib i{font-style:normal;font-size:11px;font-weight:700;min-width:30px;text-align:right}
+#mbox{position:fixed;left:10px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:45;background:#000;border-radius:10px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.5);display:none;width:160px}
+#mbox.on{display:block}#mbox iframe{display:block;width:160px;height:90px}
+#mtitle{display:block;font-size:11px;font-weight:700;color:#fff;padding:3px 26px 4px 8px;background:#111}
+#mstop{position:absolute;right:4px;bottom:2px;border:0;background:none;color:#fff;font-size:13px;cursor:pointer}
+.mta{width:100%;box-sizing:border-box;font:inherit;font-size:13px;background:var(--card2);color:var(--tx);border:1px solid var(--line);border-radius:10px;padding:8px}
+@media (min-width:1080px){#mbox{bottom:20px}}
+.lfield{aspect-ratio:1/0.98}
+.livs span{font-size:20px;text-align:center;line-height:1.25}
+@media (max-width:480px){.lib i{display:none}.lib .av{width:30px!important;height:30px!important;font-size:13px}.lib b{font-size:12px}.lic{padding:8px}.lisp .av{width:44px!important;height:44px!important}}
 </style>
 </head>
 <body>
@@ -1333,7 +1361,7 @@ function prepareDay(S, members) {
       firstOf[key].sp = [E_a.sp, E_h.sp];
       const dh = (games || []).filter(x => x[0] === h && x[1] === a).length > 1 ? 1 : 0;
       if (S.teams[h].ai && S.teams[a].ai) { const r = Engine.playGame(E_h, E_a, H, P, { maxInn: S.post ? 15 : 11, injRate: injRate(S), eligible: eligibleAt }); firstOf[key].r = r; r.log = slimLog(r.log); LVd.fin.push({ h, a, dh, r }); }
-      else LVd.games.push({ gid: k, h, a, dh, G: Engine.newGame(E_h, E_a, H, P, { maxInn: S.post ? 15 : 11, injRate: injRate(S) }), pause: null, nextAt: now() + 1500 });
+      else LVd.games.push({ gid: k, h, a, dh, G: Engine.newGame(E_h, E_a, H, P, { maxInn: S.post ? 15 : 11, injRate: injRate(S) }), pause: null, nextAt: now() + 9500 });
     } else { // 더블헤더 2차전
       const f = firstOf[key];
       if (S.teams[h].ai && S.teams[a].ai) {
@@ -1789,6 +1817,7 @@ async function hostTick() {
   hostBusy = true;
   try {
     if (S.hold) { hostBusy = false; return; }
+    const mv = LS.get('kbo_music_v', 0); if (mv && mv !== S.musicV) { const M = LS.get('kbo_music', {}); await commit(ns => { ns.music = M; ns.musicV = mv; }); }
     const pend = MEM.filter(m => m.action && m.action.id && !LIVE_ACTS.includes(m.action.type) && (!S.acted || S.acted[m.uid] !== m.action.id));
     const ph = S.phase;
     let need = pend.length > 0;
@@ -1987,10 +2016,48 @@ async function loadMedia() {
   render();
 }
 function logo(t, size) { const u = MEDIA[logoKey(t)]; return u ? `<img class="lg" src="${esc(u)}" alt="" loading="lazy" style="width:${size || 18}px;height:${size || 18}px" onerror="this.remove()">` : ''; }
+/* 사진 얼굴 자동 확대: 흰 배경을 빼고 사람 윗부분(얼굴)이 꽉 차게 잘라요 */
+const CROP = {};
+let cropT = null;
+function cropDirty() { clearTimeout(cropT); cropT = setTimeout(() => { if (UI.screen === 'room' && S && !document.querySelector('#modal.on')) { if (S.phase === 'season' && typeof liveOn === 'function' && liveOn() && document.getElementById('live')) renderLive(); else render(); } }, 400); }
+function computeCrop(im, canRead) {
+  const W = im.naturalWidth, H = im.naturalHeight; if (!W || !H) return null;
+  let bx0 = 0, by0 = 0, bx1 = W, by1 = H, found = false;
+  if (canRead) try {
+    const k = Math.min(1, 140 / Math.max(W, H)); const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(W * k)); c.height = Math.max(1, Math.round(H * k));
+    const g = c.getContext('2d'); g.drawImage(im, 0, 0, c.width, c.height); const d = g.getImageData(0, 0, c.width, c.height).data;
+    let x0 = c.width, y0 = c.height, x1 = -1, y1 = -1;
+    for (let y = 0; y < c.height; y++) for (let x = 0; x < c.width; x++) { const i = (y * c.width + x) * 4; const bg = d[i + 3] < 30 || (d[i] > 228 && d[i + 1] > 228 && d[i + 2] > 228); if (!bg) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; } }
+    if (x1 > x0 && y1 > y0) { bx0 = x0 / k; bx1 = (x1 + 1) / k; by0 = y0 / k; by1 = (y1 + 1) / k; found = true; }
+  } catch (e) { }
+  const sw = bx1 - bx0, sh = by1 - by0;
+  let sz = found ? Math.min(sw * 0.66, sh * 0.62) : Math.min(W, H) * 0.62;
+  sz = Math.max(Math.min(W, H) * 0.25, Math.min(sz, W, H));
+  let l = (found ? (bx0 + bx1) / 2 : W / 2) - sz / 2, t = found ? by0 - sz * 0.05 : H * 0.03;
+  l = Math.max(0, Math.min(W - sz, l)); t = Math.max(0, Math.min(H - sz, t));
+  return { l, t, s: sz, W, H };
+}
+function faceCrop(u) {
+  if (u in CROP) return CROP[u];
+  CROP[u] = null;
+  const im = new Image(); im.crossOrigin = 'anonymous';
+  im.onload = () => { CROP[u] = computeCrop(im, true) || 0; cropDirty(); };
+  im.onerror = () => { const im2 = new Image(); im2.onload = () => { CROP[u] = computeCrop(im2, false) || 0; cropDirty(); }; im2.onerror = () => { CROP[u] = 0; }; im2.src = u; };
+  im.src = u;
+  return null;
+}
 function avatar(id, size) {
   const p = PL[id]; const col = KBO_COLORS[p.t] || '#555'; const u = MEDIA[photoKey(p)];
-  return `<span class="av" style="background:${col};width:${size || 46}px;height:${size || 46}px">${esc(p.n.replace(/\(.*\)/, '').slice(0, 1))}${u ? `<img class="ph" src="${esc(u)}" alt="" loading="lazy" onerror="this.remove()">` : ''}${p.f ? '<i>F</i>' : ''}</span>`;
+  let img = '';
+  if (u) {
+    const c = faceCrop(u);
+    const st = c ? `width:${(c.W / c.s * 100).toFixed(1)}%;left:${(-c.l / c.s * 100).toFixed(1)}%;top:${(-c.t / c.s * 100).toFixed(1)}%` : 'width:165%;left:-32%;top:-4%';
+    img = `<span class="avi"><img src="${esc(u)}" alt="" loading="lazy" style="${st}" onerror="this.parentNode.remove()"></span>`;
+  }
+  return `<span class="av" style="background:${col};width:${size || 46}px;height:${size || 46}px">${esc(p.n.replace(/\(.*\)/, '').slice(0, 1))}${img}${p.f ? '<i>F</i>' : ''}</span>`;
 }
+/* 주 포지션: 타자는 2026년 첫 번째(가장 많이 뛴) 포지션, 투수는 선발·중간·마무리 */
+function mainPos(id) { const p = PL[id]; if (!p) return ''; return p.k === 'H' ? (p.pos[0] || 'DH') : pGroup(id); }
 function posLabel(p) { return p.k === 'H' ? p.pos.map(x => POSKO[x]).join('·') : p.role.map(x => POSKO[x]).join('·'); }
 function bar(label, v) { const c = v >= 80 ? '#16a34a' : v >= 65 ? '#65a30d' : v >= 50 ? '#ca8a04' : v >= 35 ? '#ea580c' : '#dc2626'; return `<div class="bar"><span>${label}</span><div><b style="width:${v}%;background:${c}"></b></div><em>${v}</em></div>`; }
 function teamChip(ti) { const T = S.teams[ti]; return `<span class="chip" style="--c:${col(T.color)}">${esc(T.name)}</span>`; }
@@ -2003,6 +2070,7 @@ function render() {
   if (!UID) { app.innerHTML = `<div class="card center">접속 준비 중…</div>`; return; }
   if (!window.KBO_PLAYERS || !PIDS.length) { app.innerHTML = `<div class="card"><h2>선수 데이터가 없어요</h2><p>players.js 파일이 index.html 과 같은 폴더에 있어야 해요.</p></div>`; return; }
   if (UI.screen === 'media') { app.innerHTML = mediaView(); bindMedia(); return; }
+  if (UI.screen === 'music') { app.innerHTML = musicView(); bindMusic(); return; }
   if (UI.screen === 'home' || !ROOM) { app.innerHTML = homeView(); bindHome(); return; }
   const ph = S.phase;
   let html = header();
@@ -2042,6 +2110,7 @@ function homeView() {
   ${UI.admin ? `<div class="card adm"><div class="lb">관리 메뉴</div>
     <button class="btn ghost wide" id="gomedia">사진·로고 관리 <span class="sub">${Object.keys(MEDIA).length}개 등록됨</span></button>
     <button class="btn ghost wide" id="godata">선수 데이터 넣기</button>
+    <button class="btn ghost wide" id="gomusic">응원가 설정 <span class="sub">${Object.values(LS.get('kbo_music', {}) || {}).reduce((a, l) => a + l.length, 0)}곡</span></button>
     <p class="note">선수 데이터: ${esc(window.KBO_PLAYERS.note || '')} · ${esc(window.KBO_PLAYERS.updated || '')}</p></div>` : ''}`;
 }
 function checkNick() {
@@ -2062,6 +2131,7 @@ function bindHome() {
   $('#join').onclick = async () => { if (!checkNick()) return; const c = $('#code').value; if (c.length < 4) { toast('방 코드를 확인해 주세요'); return; } await enterRoom(c); };
   const gm = $('#gomedia'); if (gm) gm.onclick = () => { UI.screen = 'media'; render(); window.scrollTo(0, 0); };
   const gd = $('#godata'); if (gd) gd.onclick = () => { location.href = 'data.html'; };
+  const gmu = $('#gomusic'); if (gmu) gmu.onclick = () => { UI.screen = 'music'; render(); window.scrollTo(0, 0); };
   const ht = $('#htitle'); if (ht) ht.onclick = () => { UI.tapN = (UI.tapN || 0) + 1; clearTimeout(UI.tapT); UI.tapT = setTimeout(() => UI.tapN = 0, 1500); if (UI.tapN >= 5) { UI.tapN = 0; UI.admin = !UI.admin; render(); } };
   const rj = $('#rejoin'); if (rj) rj.onclick = async () => { if (!checkNick()) return; await enterRoom(LS.get('kbo_last', '')); };
   document.querySelectorAll('[data-rj]').forEach(b => b.onclick = async () => { if (!checkNick()) return; await enterRoom(b.dataset.rj); });
@@ -2313,7 +2383,8 @@ function lineupTab(my) {
     const elig = hs.filter(h => pos === 'DH' || PL[h].pos.includes(pos));
     return `<div class="lrow"><span class="ord">${i + 1}</span>
       <select data-lpos="${i}">${ALLPOS.map(p => `<option value="${p}" ${p === pos ? 'selected' : ''}>${POSKO[p]}</option>`).join('')}</select>
-      <select data-lpl="${i}">${elig.length ? '' : '<option>가능한 선수 없음</option>'}${elig.map(h => `<option value="${esc(h)}" ${h === id ? 'selected' : ''} ${S.inj[h] ? 'disabled' : ''}>${esc(PL[h].dn)} ${PL[h].ovr}${inj(h)}</option>`).join('')}</select>
+      <select data-lpl="${i}">${elig.length ? '' : '<option>가능한 선수 없음</option>'}${elig.map(h => `<option value="${esc(h)}" ${h === id ? 'selected' : ''} ${S.inj[h] ? 'disabled' : ''}>${esc(PL[h].dn)} · 주 ${POSKO[mainPos(h)]} · ${PL[h].ovr}${inj(h)}</option>`).join('')}</select>
+      <span class="mpos">${PL[id] ? '주 ' + POSKO[mainPos(id)] : ''}</span>
       <span class="ud"><button data-up="${i}">▲</button><button data-dn="${i}">▼</button></span></div>`;
   }).join('');
   const sps = ps.filter(canSP), rps = ps.filter(canRP).sort((a, b) => isCP(b) - isCP(a));
@@ -2324,10 +2395,10 @@ function lineupTab(my) {
     <button class="btn ghost wide" id="lautobtn">최적 라인업 자동 편성</button>
   </div>
   <div class="card"><h3>선발 로테이션 (5명)</h3>
-    ${[0, 1, 2, 3, 4].map(i => `<div class="lrow"><span class="ord">${i + 1}</span><select data-rot="${i}"><option value="">(자동)</option>${sps.map(p => `<option value="${esc(p)}" ${L.rot[i] === p ? 'selected' : ''} ${S.inj[p] ? 'disabled' : ''}>${esc(PL[p].dn)} ${PL[p].ovr}${inj(p)}</option>`).join('')}</select></div>`).join('')}
+    ${[0, 1, 2, 3, 4].map(i => `<div class="lrow"><span class="ord">${i + 1}</span><select data-rot="${i}"><option value="">(자동)</option>${sps.map(p => `<option value="${esc(p)}" ${L.rot[i] === p ? 'selected' : ''} ${S.inj[p] ? 'disabled' : ''}>${esc(PL[p].dn)} · 주 ${POSKO[mainPos(p)]} · ${PL[p].ovr}${inj(p)}</option>`).join('')}</select></div>`).join('')}
     <p class="note">이번 주 1경기부터 차례로 나가고, 6경기째는 1번 투수가 다시 던져요. 더블헤더가 생기면 다음 순번이 2차전에 나가요.</p>
     <h3>마무리</h3>
-    <select id="lcp" class="wide"><option value="">(자동)</option>${rps.map(p => `<option value="${esc(p)}" ${L.cp === p ? 'selected' : ''}>${esc(PL[p].dn)} ${PL[p].ovr}${inj(p)}</option>`).join('')}</select>
+    <select id="lcp" class="wide"><option value="">(자동)</option>${rps.map(p => `<option value="${esc(p)}" ${L.cp === p ? 'selected' : ''}>${esc(PL[p].dn)} · 주 ${POSKO[mainPos(p)]} · ${PL[p].ovr}${inj(p)}</option>`).join('')}</select>
   </div>
   <div class="card"><h3>중간 투수 (불펜)</h3><p class="note">선발 5명과 마무리를 뺀 투수가 경기 상황에 맞춰 자동으로 나와요. 접전에는 좋은 투수, 크게 이기거나 질 때는 다른 투수가 던져요.</p>
     <div class="plist">${ps.filter(p => canRP(p) && !L.rot.includes(p) && p !== L.cp).sort((a, b) => PL[b].ovr - PL[a].ovr).map(p => pRow(p)).join('') || '<p class="sub">없어요</p>'}</div></div>
@@ -2715,17 +2786,22 @@ function staffView(ps, rotIn, cpIn) {
 }
 /* 중계용 그라운드: 수비 9명 + 주자 + 타자 */
 const BASEPOS = [[80, 66], [50, 31], [20, 66]];
-function liveField(G) {
+function liveField(G, g, my) {
   const bt = G.half, ft = 1 - bt;
+  const side = g ? (g.h === my ? 1 : g.a === my ? 0 : -1) : -1;
+  const subOn = side >= 0 && g.pause && g.pause.ti === my && g.pause.why === 'manual' && !G.end;
   const fl = G.bat[ft].filter(x => x.pos !== 'DH').map(x => [x.id, x.pos]);
   const pit = G.mound[ft] && G.mound[ft].id;
-  const dot = (id, x, y, cls, lab) => id && PL[id] ? `<div class="lfp ${cls}" data-pid="${esc(id)}" style="left:${x}%;top:${y}%">${avatar(id, cls === 'run' || cls === 'bat' ? 34 : 28)}<b>${esc(lab || shortName(id))}</b></div>` : '';
+  const subAttr = (id, kind) => { if (!subOn) return `data-pid="${esc(id)}"`; const t = kind === 'pc' ? ft : (kind === 'ph' || kind === 'run') ? bt : ft; if (t !== side) return `data-pid="${esc(id)}"`; const slot = G.bat[side].findIndex(x => x.id === id); return `data-lv="sub" data-kind="${kind === 'run' ? 'def' : kind}" data-slot="${slot}" data-gid="${g.gid}"`; };
+  const dot = (id, x, y, cls, kind) => id && PL[id] ? `<div class="lfp ${cls} ${subOn && ((kind === 'pc' || kind === 'def') ? ft === side : bt === side) ? 'tap' : ''}" ${subAttr(id, kind)} style="left:${x}%;top:${y}%">${avatar(id, cls === 'run' || cls === 'bat' ? 50 : 44)}<b>${esc(shortName(id))}</b></div>` : '';
   const batter = G.end ? null : G.bat[bt][G.ptr[bt] % 9];
-  return `<div class="field lfield"><div class="fgrass"></div><div class="fdia"></div><div class="fmound"></div>
-    ${fl.map(([id, pos]) => dot(id, FPOS[pos][0], FPOS[pos][1], 'def')).join('')}${dot(pit, 50, 63, "def")}
-    ${G.bases.map((id, k) => id ? dot(id, BASEPOS[k][0], BASEPOS[k][1] - 6, 'run') : '').join('')}
-    ${batter ? dot(batter.id, 62, 92, 'bat') : ''}
+  let h = `<div class="field lfield">${subOn ? '<div class="lhint">작전 타임 — 우리 선수 얼굴을 누르면 바로 교체해요</div>' : ''}<div class="fgrass"></div><div class="fdia"></div><div class="fmound"></div>
+    ${fl.map(([id, pos]) => dot(id, FPOS[pos][0], FPOS[pos][1], 'def', 'def')).join('')}${dot(pit, 50, 63, 'def', 'pc')}
+    ${G.bases.map((id, k) => id ? dot(id, BASEPOS[k][0], BASEPOS[k][1] - 6, 'run', 'run') : '').join('')}
+    ${batter ? dot(batter.id, 66, 84, 'bat', 'ph') : ''}
   </div>`;
+  if (subOn && bt === side) h += `<div class="lorder"><span>우리 타순</span>${G.bat[side].map((x, i) => `<button data-lv="sub" data-kind="${i === G.ptr[side] % 9 ? 'ph' : 'def'}" data-slot="${i}" data-gid="${g.gid}">${avatar(x.id, 38)}<b>${i + 1}. ${esc(shortName(x.id))}</b><em>${POSKO[x.pos]}</em></button>`).join('')}</div>`;
+  return h;
 }
 function miniP(id, sub) {
   return `<button class="mp" data-pid="${esc(id)}">${avatar(id, 44)}${condTag(id)}<b>${esc(shortName(id))}</b><em>${sub != null ? sub : PL[id].ovr}</em></button>`;
@@ -3070,7 +3146,7 @@ function liveView(my) {
         <div class="outs">${[1, 2, 3].map(n => `<i class="${G.outs >= n && !G.end ? 'on' : ''}"></i>`).join('')}</div></div>
       <div class="ct r" style="--tc:${col(Hm.color)}"><b>${G.score[1]}</b><span>${esc(Hm.name)}</span></div></div>
     <div class="vtog"><div class="seg2"><button class="${UI.view3d ? '' : 'on'}" data-lv="v2">2D</button><button class="${UI.view3d ? 'on' : ''}" data-lv="v3">3D 중계</button></div><button class="snd ${UI.sound ? 'on' : ''}" data-lv="snd">${UI.sound ? '소리 켜짐' : '소리 꺼짐'}</button></div>
-    ${UI.view3d ? `<div class="c3slot" id="c3slot" data-gid="${g.gid}"></div>` : liveField(G)}
+    ${UI.view3d ? `<div class="c3slot" id="c3slot" data-gid="${g.gid}"></div>` : liveField(G, g, my)}
     ${G.end ? '' : `<div class="cvs">${card(batter && batter.id, `타석 · ${S.teams[sideTi(g, bt)].name}`, `오늘 ${bline(batter && batter.id)}`, (batter && hsv(S, batter.id, 'PA') ? `시즌 ${avgStr(avgOf(S, batter.id))}` : '시즌 첫 경기'))}<span>VS</span>${card(pit && pit.id, '투수', pline(pit), (pit && psv(S, pit.id, 'OUTS') ? `ERA ${eraOf(S, pit.id).toFixed(2)}` : '시즌 첫 등판') + (pit ? ' · ' + repShort(pit.id) : ''))}</div>`}
     ${(() => { const f = batter && G.form && G.form[batter.id]; return f >= 7 ? `<div class="formtag hot">${esc(PL[batter.id].dn)} 오늘 컨디션 최고</div>` : f <= -7 ? `<div class="formtag cold">${esc(PL[batter.id].dn)} 오늘 타격감 난조</div>` : ''; })()}
     ${g.pause ? `<div class="lpause">${g.pause.why === 'inj' ? `${esc(PL[g.pause.id] ? PL[g.pause.id].dn : '')} 부상! ${esc(S.teams[g.pause.ti].name)} 감독이 교체 선수를 고르는 중` : `${esc(S.teams[g.pause.ti].name)} 감독 작전 타임`} · <span data-dl="${g.pause.until}"></span></div>`
@@ -3113,6 +3189,8 @@ function liveWatch() {
   if (document.querySelector('#modal.on') && !document.querySelector('#modal .lsheet')) closeModal();
   UI.tab = 'game'; UI.lg = null;
   toast(mine ? '경기 시작! 중계 화면으로 이동했어요' : '오늘 경기가 시작됐어요');
+  const ig = LVc.games.find(x => (x.h === my || x.a === my) && x.G) || LVc.games.find(x => x.G);
+  if (ig) setTimeout(() => lineupIntro(ig), 120);
   try { if (navigator.vibrate) navigator.vibrate([120, 60, 120]); } catch (e) { }
   setTimeout(() => { const el = document.getElementById('live'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 80);
   return true;
@@ -3121,6 +3199,20 @@ function mount3d() {
   const sl = document.getElementById('c3slot'); if (!sl || !LVc) return;
   const g = LVc.games.find(x => x.gid === +sl.dataset.gid); if (g && g.G) Cast3D.mount(sl, g);
 }
+/* 경기 시작 전 라인업 발표: ㅇㅇ vs ㅇㅇ */
+function lineupIntro(g) {
+  const G = g.G; if (!G) return;
+  const side = t => { const ti = t ? g.h : g.a; const T = S.teams[ti]; const sp = G.pit[t][0] && G.pit[t][0].id;
+    return `<div class="lic" style="--tc:${col(T.color)}"><div class="lih"><b>${esc(T.name)}</b><span>${t ? '홈' : '원정'} · ${T.W}승 ${T.L}패</span></div>
+      ${sp ? `<div class="lisp">${avatar(sp, 56)}<div><em>선발 투수</em><b>${esc(PL[sp].dn)}</b><span>${repShort(sp)} · ERA ${eraOf(S, sp).toFixed(2)}</span></div></div>` : ''}
+      ${G.startBat[t].map(([id, pos], i) => `<div class="lib"><span class="lio">${i + 1}</span>${avatar(id, 36)}<b>${esc(shortName(id))}</b><em>${POSKO[pos]}</em><i>${hsv(S, id, 'PA') ? avgStr(avgOf(S, id)) : PL[id].ovr}</i></div>`).join('')}</div>`; };
+  openModal(`<div class="lintro"><div class="lit">${S.post ? esc(S.post.stage) : '오늘의 경기'} · 라인업 발표</div>
+    <div class="livs"><span style="--tc:${col(S.teams[g.a].color)}">${esc(S.teams[g.a].name)}</span><em>VS</em><span style="--tc:${col(S.teams[g.h].color)}">${esc(S.teams[g.h].name)}</span></div>
+    <div class="ligrid">${side(0)}${side(1)}</div><div class="sub center" style="margin-top:8px">잠시 뒤 플레이볼! (창을 닫아도 돼요)</div></div>`);
+  const box = document.querySelector('#modal .mbox'); if (box) box.classList.add('intro');
+  UI.introOpen = now();
+  const t0 = UI.introOpen; setTimeout(() => { if (UI.introOpen === t0 && document.querySelector('#modal .lintro')) closeModal(); }, 9000);
+}
 function renderLive() {
   if (!S || S.phase !== 'season') return;
   if (liveWatch()) { render(); return; }
@@ -3128,15 +3220,15 @@ function renderLive() {
   const want = S.blk && S.blk.ph === 'play' && LVc && LVc.day === S.day && !LVc.final && (UI.tab || 'game') === 'game';
   if (!el) { if (want && UI.screen === 'room') render(); return; }
   if (!want) { render(); return; }
-  const my = myTi(); el.innerHTML = liveView(my); mount3d();
+  const my = myTi(); el.innerHTML = liveView(my); mount3d(); try { musicTick(); } catch (e) { }
   // 부상 결정 창 자동으로 열기
   const g = LVc.games.find(x => x.pause && x.pause.why === 'inj' && x.pause.ti === my);
   if (g && UI.injOpen !== g.pause.until) { UI.injOpen = g.pause.until; liveSheet('inj', g); }
 }
 function liveSheet(kind, g) {
   const my = myTi(); const side = g.h === my ? 1 : 0; const G = g.G;
-  const benchCard = (id, attr) => `<button class="prl2" ${attr}>${avatar(id, 40)}<div class="pi"><b>${esc(PL[id].dn)}</b> <span class="sub">${posLabel(PL[id])}</span>${condTag(id)}<div class="tl">타율 ${avgStr(avgOf(S, id))} · ${hsv(S, id, 'HR')}홈런 · 종합 ${PL[id].ovr}</div></div></button>`;
-  const penCard = (id, attr) => { const u = S.pu && S.pu[id]; const tired = u && u[0] === S.day - 1; return `<button class="prl2" ${attr}>${avatar(id, 40)}<div class="pi"><b>${esc(PL[id].dn)}</b> <span class="sub">${POSKO[pGroup(id)]}${id === G.cp[side] ? ' · 마무리' : ''}</span>${tired ? '<i class="st cold">연투</i>' : ''}<div class="tl">ERA ${eraOf(S, id).toFixed(2)} · 구위 ${PL[id].r.stf} 제구 ${PL[id].r.ctl}</div></div></button>`; };
+  const benchCard = (id, attr, want) => `<button class="prl2" ${attr}>${avatar(id, 44)}<div class="pi"><b>${esc(PL[id].dn)}</b> <span class="mpos">주 ${POSKO[mainPos(id)]}</span> <span class="sub">${PL[id].pos.length > 1 ? PL[id].pos.slice(1).map(x => POSKO[x]).join('·') + ' 가능' : ''}</span>${want ? (want === 'DH' || PL[id].pos.includes(want) ? ' <i class="fit ok">' + POSKO[want] + ' 가능</i>' : ' <i class="fit no">' + POSKO[want] + ' 수비 불가</i>') : ''}${condTag(id)}<div class="tl">타율 ${avgStr(avgOf(S, id))} · ${hsv(S, id, 'HR')}홈런 · 종합 ${PL[id].ovr}</div></div></button>`;
+  const penCard = (id, attr) => { const u = S.pu && S.pu[id]; const tired = u && u[0] === S.day - 1; return `<button class="prl2" ${attr}>${avatar(id, 40)}<div class="pi"><b>${esc(PL[id].dn)}</b> <span class="mpos">주 ${POSKO[pGroup(id)]}</span><span class="sub">${id === G.cp[side] ? ' · 오늘 마무리' : ''} · ${repShort(id)}</span>${tired ? '<i class="st cold">연투</i>' : ''}<div class="tl">ERA ${eraOf(S, id).toFixed(2)} · 구위 ${PL[id].r.stf} 제구 ${PL[id].r.ctl}</div></div></button>`; };
   let html = '';
   if (kind === 'pc' || (kind === 'inj' && g.pause && g.pause.kind === 'pit')) {
     html = `<h3>${kind === 'inj' ? `${esc(PL[g.pause.id].dn)} 부상 — 대신 던질 투수` : '투수 교체'}</h3><p class="sub">지금 투수: ${esc(PL[G.mound[side].id].dn)} · ${Math.round(G.mound[side].np)}구</p>
@@ -3144,7 +3236,7 @@ function liveSheet(kind, g) {
   } else if (kind === 'inj') {
     const slot = G.bat[side].findIndex(x => x.id === g.pause.id); const pos = slot >= 0 ? G.bat[side][slot].pos : 'DH';
     html = `<h3>${esc(PL[g.pause.id].dn)} 부상 — 대신 들어갈 선수</h3><p class="sub">${POSKO[pos]} 자리 · 그 포지션을 못 보는 선수는 수비가 약해져요</p>
-      ${G.bench[side].slice().sort((a, b) => eligibleAt(b, pos) - eligibleAt(a, pos) || PL[b].ovr - PL[a].ovr).map(id => benchCard(id, `data-lsend="linj" data-gid="${g.gid}" data-in="${esc(id)}"`) + (eligibleAt(id, pos) ? '' : '')).join('') || '<p class="sub">벤치에 남은 선수가 없어요</p>'}`;
+      ${G.bench[side].slice().sort((a, b) => eligibleAt(b, pos) - eligibleAt(a, pos) || PL[b].ovr - PL[a].ovr).map(id => benchCard(id, `data-lsend="linj" data-gid="${g.gid}" data-in="${esc(id)}"`, pos) + (eligibleAt(id, pos) ? '' : '')).join('') || '<p class="sub">벤치에 남은 선수가 없어요</p>'}`;
   } else {
     const isPH = kind === 'ph';
     const cur = isPH ? G.ptr[side] % 9 : (UI.lslot != null ? UI.lslot : 0);
@@ -3152,10 +3244,10 @@ function liveSheet(kind, g) {
     const slotPos = G.bat[side][sel].pos;
     const pos = isPH ? slotPos : (UI.lpos || slotPos);
     html = `<h3>${isPH ? '대타' : '선수 교체'}</h3>
-      <div class="lslots">${G.bat[side].map((x, i) => `<button class="${i === sel ? 'on' : ''}" data-lslot="${i}" data-kind="${kind}" data-gid="${g.gid}"><span>${i + 1}</span>${avatar(x.id, 32)}<b>${esc(shortName(x.id))}</b><em>${POSKO[x.pos]}${x.emg ? '!' : ''}</em></button>`).join('')}</div>
+      <div class="lslots">${G.bat[side].map((x, i) => `<button class="${i === sel ? 'on' : ''}" data-lslot="${i}" data-kind="${kind}" data-gid="${g.gid}"><span>${i + 1}</span>${avatar(x.id, 32)}<b>${esc(shortName(x.id))}</b><em>${POSKO[x.pos]}${x.emg ? '!' : ''} · 주 ${POSKO[mainPos(x.id)]}</em></button>`).join('')}</div>
       ${isPH ? '' : `<div class="row"><span class="sub">들어갈 자리</span><select id="lpos">${ALLPOS.map(p => `<option ${p === pos ? 'selected' : ''} value="${p}">${POSKO[p]}</option>`).join('')}</select></div>`}
       <h4>벤치 — 누르면 ${esc(PL[G.bat[side][sel].id].dn)} 대신 들어가요</h4>
-      ${G.bench[side].slice().sort((a, b) => eligibleAt(b, pos) - eligibleAt(a, pos) || PL[b].ovr - PL[a].ovr).map(id => benchCard(id, `data-lsend="${isPH ? 'lph' : 'ldef'}" data-gid="${g.gid}" data-in="${esc(id)}" data-slot="${sel}" data-pos="${pos}"`)).join('') || '<p class="sub">벤치에 남은 선수가 없어요</p>'}
+      ${G.bench[side].slice().sort((a, b) => eligibleAt(b, pos) - eligibleAt(a, pos) || PL[b].ovr - PL[a].ovr).map(id => benchCard(id, `data-lsend="${isPH ? 'lph' : 'ldef'}" data-gid="${g.gid}" data-in="${esc(id)}" data-slot="${sel}" data-pos="${pos}"`, isPH ? null : pos)).join('') || '<p class="sub">벤치에 남은 선수가 없어요</p>'}
       <p class="note">한 번 빠진 선수는 오늘 경기에 다시 못 나와요. 포지션을 못 보는 자리에 넣으면 수비가 약해져요.</p>`;
   }
   openModal(html);
@@ -3171,7 +3263,8 @@ document.addEventListener('click', async e => {
   else if (k === 'spd') { await sendAction({ type: 'lspeed', v: b.dataset.v }); toast({ s: '느리게', n: '보통', f: '빠르게' }[b.dataset.v] + ' — 우리 공격 때 적용돼요'); }
   else if (k === 'sign') { await sendAction({ type: 'lsign', gid, v: b.dataset.v }); toast(b.dataset.v === 'bunt' ? '다음 타자 번트 사인!' : b.dataset.v === 'steal' ? '도루 사인!' : '강공으로 갑니다'); }
   else if (k === 'v2' || k === 'v3') { UI.view3d = k === 'v3'; LS.set('kbo_view3d', UI.view3d); renderLive(); if (UI.view3d) toast('3D 중계 — 속도를 느리게 하면 장면을 끝까지 볼 수 있어요'); }
-  else if (k === 'snd') { UI.sound = !UI.sound; LS.set('kbo_sound', UI.sound); if (UI.sound) { Cast3D.sound.unlock(); Cast3D.sound.cheer(1.2, 0.2); } renderLive(); }
+  else if (k === 'snd') { UI.sound = !UI.sound; LS.set('kbo_sound', UI.sound); if (UI.sound) { Cast3D.sound.unlock(); Cast3D.sound.cheer(1.2, 0.2); if (Music.has()) Music.play(Object.keys(musicList())[0], '응원가', 8, true); } else Music.stop(); renderLive(); }
+  else if (k === 'sub' && g) { UI.lslot = +b.dataset.slot; UI.lpos = null; liveSheet(b.dataset.kind, g); }
   else if (k === 'pause') { await sendAction({ type: 'lpause', gid }); toast('작전 타임! 경기를 멈췄어요'); }
   else if (k === 'resume') { await sendAction({ type: 'lresume', gid }); }
   else if (k === 'ph' || k === 'pc' || k === 'def' || k === 'inj') { UI.lslot = null; UI.lpos = null; if (g) liveSheet(k, g); }
@@ -3261,7 +3354,7 @@ const Cast3D = (() => {
   const ease = t => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
   let CB = null;
   function setCam() {
-    const f = norm(sub(cam.t, cam.p)); const r = norm(cross(f, [0, 1, 0])); const u = cross(r, f);
+    const f = norm(sub(cam.t, cam.p)); const r = norm(cross([0, 1, 0], f)); const u = cross(f, r); // 홈에서 보면 1루가 오른쪽
     CB = { p: cam.p, f, r, u, F: Math.min(W, Hh * 1.45) * (cam.zoom || 1.05), wide: (cam.zoom || 1) < 3 };
   }
   function toCam(P) { const d = sub(P, CB.p); return [dot(d, CB.r), dot(d, CB.u), dot(d, CB.f)]; }
@@ -3341,7 +3434,7 @@ const Cast3D = (() => {
   /* ---------- 선수 ---------- */
   function photo(id) {
     const p = PL[id]; if (!p) return null; const u = MEDIA[photoKey(p)]; if (!u) return null;
-    if (!imgs[u]) { const im = new Image(); im.src = u; imgs[u] = im; }
+    if (!imgs[u]) { const im = new Image(); im._u = u; im.src = u; imgs[u] = im; }
     const im = imgs[u]; return im.complete && im.naturalWidth ? im : null;
   }
   // pose: idle | ready | run | bat | swing | pitch | throw | dive | jump | crouch | slide
@@ -3397,10 +3490,10 @@ const Cast3D = (() => {
       if (o.glove) { cx.fillStyle = '#7c4a1e'; cx.beginPath(); cx.arc(-h * 0.15, sh[1] + h * 0.24, h * 0.055, 0, 7); cx.fill(); }
     }
     // 머리 (선수 사진)
-    const hr = h * 0.115, hy = shY - hr * 0.95;
+    const hr = h * (o.headK || (CB.wide ? 0.27 : 0.2)), hy = shY - hr * 0.9;
     const im = o.id ? photo(o.id) : null;
     cx.save(); cx.beginPath(); cx.arc(0, hy, hr, 0, 7); cx.closePath();
-    if (im) { cx.clip(); const s = Math.min(im.naturalWidth, im.naturalHeight); cx.drawImage(im, (im.naturalWidth - s) / 2, (im.naturalHeight - s) / 2, s, s, -hr, hy - hr, hr * 2, hr * 2); }
+    if (im) { cx.clip(); cx.fillStyle = '#eef0f3'; cx.fill(); const c = faceCrop(im._u); if (c) cx.drawImage(im, c.l, c.t, c.s, c.s, -hr, hy - hr, hr * 2, hr * 2); else { const s = Math.min(im.naturalWidth, im.naturalHeight) * 0.62; cx.drawImage(im, (im.naturalWidth - s) / 2, im.naturalHeight * 0.03, s, s, -hr, hy - hr, hr * 2, hr * 2); } }
     else { cx.fillStyle = '#f1c9a5'; cx.fill(); if (hr > 6 && o.id && PL[o.id]) { cx.fillStyle = '#333'; cx.font = `700 ${Math.round(hr * 1.1)}px Pretendard,sans-serif`; cx.textAlign = 'center'; cx.textBaseline = 'middle'; cx.fillText(PL[o.id].n.slice(0, 1), 0, hy + hr * 0.08); } }
     cx.restore();
     cx.strokeStyle = 'rgba(255,255,255,.9)'; cx.lineWidth = Math.max(1, hr * 0.14); cx.beginPath(); cx.arc(0, hy, hr, 0, 7); cx.stroke();
@@ -3681,6 +3774,109 @@ const Cast3D = (() => {
   build = function (e, g) { const A = _build(e, g); if (lastStarted !== e) { lastStarted = e; if (A) setTimeout(() => onStart(A), 0); } return A; };
   return { mount, feed, sound: SND };
 })();
+
+/* ===================== 응원가 · 안타송 (유튜브) =====================
+   - 관리 메뉴 → [응원가 설정] 에 구단별 유튜브 링크를 붙여 넣어요. (영상 파일은 올리지 않고 유튜브 공식 플레이어로 재생)
+   - 안타 → 그 타자의 원래 구단 안타송, 홈런 → 홈런송, 우리 공격 시작 → 구단 응원가 중 랜덤
+   - 방장이 넣은 목록이 방 전체에 공유돼요. 소리 켜기를 누른 사람에게만 나와요. */
+const MUSIC_KINDS = ['응원가', '안타', '홈런'];
+function ytId(s) {
+  s = String(s || '').trim(); if (!s) return null;
+  let m = s.match(/(?:youtu\.be\/|v=|shorts\/|embed\/|live\/)([A-Za-z0-9_-]{11})/); if (m) return m[1];
+  if (/^[A-Za-z0-9_-]{11}$/.test(s)) return s;
+  return null;
+}
+function ytStart(s) { const m = String(s).match(/[?&]t=(\d+)/); return m ? +m[1] : 0; }
+function parseMusic(text) { // "안타 https://youtu.be/xxxx" 한 줄에 하나
+  const out = [];
+  String(text || '').split(/\n/).forEach(line => {
+    line = line.trim(); if (!line) return;
+    const kind = MUSIC_KINDS.find(k => line.startsWith(k)) || '응원가';
+    const id = ytId(line.replace(/^\S+\s+/, '')) || ytId(line); if (!id) return;
+    out.push({ k: kind, id, t: ytStart(line) });
+  });
+  return out.slice(0, 40);
+}
+function musicList() { return (S && S.music) || LS.get('kbo_music', {}) || {}; }
+function musicView() {
+  const M = LS.get('kbo_music', {}) || {};
+  return `<div class="top"><b>응원가 설정</b><button class="btn ghost sm" id="mback">돌아가기</button></div>
+  <div class="card"><p class="note">유튜브에서 구단 응원가·안타송·홈런송 영상 주소를 복사해서, 구단별로 한 줄에 하나씩 붙여 넣어요.<br>
+  줄 앞에 <b>응원가</b> / <b>안타</b> / <b>홈런</b> 을 쓰면 그 상황에 나와요(안 쓰면 응원가). 예) <code>안타 https://youtu.be/abcdEFGhijk</code><br>
+  주소 끝에 <code>&t=30</code> 처럼 시간을 붙이면 그 초부터 나와요. 방장이 저장하면 방 사람들 모두에게 공유돼요.<br>
+  유튜브에서 '퍼가기 금지'로 막아 둔 영상은 재생이 안 돼요. 그때는 다른 영상이 대신 나와요.</p></div>
+  ${KBO_TEAMS.map(t => `<div class="card"><h4 style="margin-top:0">${logo(t, 20)} ${esc(t)} <span class="sub">${(M[t] || []).length}곡</span></h4>
+    <textarea class="mta" data-mt="${esc(t)}" rows="4" placeholder="응원가 https://www.youtube.com/watch?v=...&#10;안타 https://youtu.be/...&#10;홈런 https://youtu.be/...">${esc((M[t] || []).map(x => `${x.k} https://youtu.be/${x.id}${x.t ? '?t=' + x.t : ''}`).join('\n'))}</textarea></div>`).join('')}
+  <button class="btn big wide" id="msave">저장하기</button>
+  <button class="btn ghost wide" id="mtest">소리 시험 (KIA 응원가 → 없으면 아무 곡)</button>`;
+}
+function bindMusic() {
+  $('#mback').onclick = () => { UI.screen = 'home'; render(); };
+  $('#msave').onclick = () => {
+    const M = {}; let n = 0;
+    document.querySelectorAll('[data-mt]').forEach(ta => { const l = parseMusic(ta.value); if (l.length) { M[ta.dataset.mt] = l; n += l.length; } });
+    LS.set('kbo_music', M); LS.set('kbo_music_v', now());
+    toast(`${n}곡 저장했어요. 방장으로 방에 들어가면 방 사람들에게 공유돼요`); render();
+  };
+  $('#mtest').onclick = () => { UI.sound = true; LS.set('kbo_sound', true); Music.play('KIA', '응원가', 12, true); };
+}
+const Music = (() => {
+  let player = null, ready = false, pending = null, stopT = null, playingUntil = 0, box = null, lastErr = {};
+  function ensure() {
+    if (player || !window.document) return;
+    box = document.createElement('div'); box.id = 'mbox'; box.innerHTML = '<div id="ytp"></div><span id="mtitle"></span><button id="mstop" aria-label="끄기">✕</button>';
+    document.body.appendChild(box);
+    box.querySelector('#mstop').onclick = () => stop();
+    const go = () => {
+      player = new YT.Player('ytp', { width: 160, height: 90, playerVars: { playsinline: 1, controls: 0, rel: 0, modestbranding: 1 },
+        events: { onReady: () => { ready = true; if (pending) { const p = pending; pending = null; start(p); } },
+          onError: () => { const cur = box.dataset.cur; lastErr[cur] = now(); stop(); if (box.dataset.team) play(box.dataset.team, box.dataset.kind, 10, true, cur); } } });
+    };
+    if (window.YT && window.YT.Player) go();
+    else { window.onYouTubeIframeAPIReady = go; const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s); }
+  }
+  function start(p) {
+    try {
+      box.dataset.cur = p.id; box.dataset.team = p.team; box.dataset.kind = p.kind;
+      player.setVolume(75); player.loadVideoById({ videoId: p.id, startSeconds: p.t || 0 });
+      box.classList.add('on'); box.querySelector('#mtitle').textContent = `${p.team} ${p.kind}`;
+      clearTimeout(stopT); stopT = setTimeout(stop, p.secs * 1000); playingUntil = now() + p.secs * 1000;
+    } catch (e) { }
+  }
+  function stop() { clearTimeout(stopT); playingUntil = 0; try { if (player && ready) player.stopVideo(); } catch (e) { } if (box) box.classList.remove('on'); }
+  function play(team, kind, secs, force, skipId) {
+    if (!UI.sound) return false;
+    if (!force && now() < playingUntil) return false;
+    const M = musicList(); let list = (M[team] || []).filter(x => x.id !== skipId && !(lastErr[x.id] && now() - lastErr[x.id] < 600000));
+    let pickL = list.filter(x => x.k === kind);
+    if (!pickL.length && kind !== '응원가') pickL = list.filter(x => x.k === '응원가');
+    if (!pickL.length) { const all = Object.keys(M).flatMap(t => (M[t] || []).map(x => Object.assign({ team: t }, x))).filter(x => x.id !== skipId && x.k === kind); if (!all.length) return false; const x = all[Math.floor(Math.random() * all.length)]; team = x.team; pickL = [x]; }
+    const x = pickL[Math.floor(Math.random() * pickL.length)];
+    const p = { id: x.id, t: x.t, team, kind, secs };
+    ensure(); if (ready) start(p); else pending = p;
+    return true;
+  }
+  return { play, stop, has: () => Object.keys(musicList()).length > 0 };
+})();
+/* 중계에서 새 장면이 나오면 응원가 */
+const MusicWatch = { key: null, n: 0 };
+function musicTick() {
+  if (!UI.sound || !LVc || !Music.has()) return;
+  const my = myTi(); const g = (LVc.games || []).find(x => x.gid === UI.lg) || LVc.games.find(x => (x.h === my || x.a === my) && x.G) || LVc.games.find(x => x.G);
+  if (!g || !g.G) return;
+  const key = LVc.day + ':' + g.gid; const log = g.G.log;
+  if (MusicWatch.key !== key) { MusicWatch.key = key; MusicWatch.n = log.length; return; }
+  for (; MusicWatch.n < log.length; MusicWatch.n++) {
+    const e = log[MusicWatch.n]; const bid = e[8]; const t = bid && PL[bid] ? PL[bid].t : null;
+    const delay = UI.view3d ? 1200 : 0;
+    if (e[0] === 'hr' && t) setTimeout(() => Music.play(t, '홈런', 18, true), delay);
+    else if (e[0] === 'h' && t) setTimeout(() => Music.play(t, '안타', 11), delay);
+    else if (e[0] === 'inn') { // 공격 시작: 첫 타자 원래 구단 응원가 (가끔)
+      const half = e[3]; const b = g.G.bat[half] && g.G.bat[half][g.G.ptr[half] % 9]; const sideTi = half ? g.h : g.a;
+      if (b && PL[b.id] && (sideTi === my || Math.random() < 0.4)) Music.play(PL[b.id].t, '응원가', 14);
+    }
+  }
+}
 
 /* ---------- 시작 ---------- */
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { const m = document.getElementById('modal'); if (m && m.classList.contains('on')) closeModal(); } });
