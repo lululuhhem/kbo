@@ -288,6 +288,38 @@ details summary{color:var(--sub);padding:10px 0;font-size:14px}
   .tlist{max-height:56vh}
 }
 .tsel .st{position:static;display:inline-block;margin-left:4px}.tsel .st:not(.cold){background:var(--card);color:var(--sub)}
+.tchance{display:flex;align-items:center;gap:10px;margin:6px 0 10px;font-size:14px;color:var(--sub)}.tchance .prog{flex:1;margin:0}.tchance b{color:var(--tx);min-width:42px;text-align:right}
+.nsub{font-size:13px;font-weight:700;color:var(--sub);margin:12px 0 6px}.nsub em{font-style:normal;font-weight:600;margin-left:4px;color:var(--tx)}
+.nslots.p{grid-template-columns:repeat(5,1fr);gap:5px}
+.ns.sm{height:68px;padding:4px 2px;gap:2px}.ns.sm b{font-size:11px}.ns.sm .nsp{font-size:9px}.ns.sm.need i,.ns.sm.opt i{font-size:18px}
+.ns.sm.need b{color:var(--acc)}.ns.opt{background:transparent;box-shadow:inset 0 0 0 1.5px var(--line)}.ns.opt i,.ns.opt b{font-style:normal;color:var(--sub)}
+.staff{border-radius:14px;padding:10px 8px 12px;margin-bottom:8px;background:linear-gradient(180deg,#1f3b2c,#16291f);}
+.sth{font-size:12px;font-weight:700;color:rgba(255,255,255,.75);margin:4px 4px 6px}.sth i{font-style:normal;color:#fff;margin-left:4px}
+.strow{display:grid;grid-template-columns:repeat(5,1fr);gap:4px 2px;margin-bottom:6px}
+.staff .fp.rel{position:relative;transform:none;left:auto;top:auto;width:auto;min-width:0}
+.staff .fp b{font-size:11px;max-width:100%}.staff .fp em{font-size:9px}
+.lfield{aspect-ratio:1/0.82;margin:10px 0 0}
+.lfield .fdia{top:66%;width:42%}.lfield .fmound{top:66%}
+.lfp{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:1px;z-index:2;transition:left .5s,top .5s;cursor:pointer}
+.lfp b{font-size:10px;font-weight:600;color:#fff;background:rgba(0,0,0,.55);border-radius:4px;padding:0 4px;white-space:nowrap;max-width:64px;overflow:hidden;text-overflow:ellipsis}
+.lfp.def .av{opacity:.92}
+.lfp.run .av{box-shadow:0 0 0 2px var(--gold),0 0 10px rgba(251,191,36,.6)}.lfp.run b{background:var(--gold);color:#111}
+.lfp.bat .av{box-shadow:0 0 0 2px var(--acc)}.lfp.bat b{background:var(--acc)}
+.holdc{box-shadow:inset 0 0 0 1.5px var(--gold)}.holdc b{font-size:18px}.holdc .row{margin-top:10px;gap:8px}.holdc .btn.big{flex:1}
+.rjb{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:6px}.rjb b{letter-spacing:.08em}.rjb .sub{font-size:13px;font-weight:500}
+.nextg{display:flex;align-items:center;flex-wrap:wrap;gap:6px 8px;font-size:17px;font-weight:700;margin:4px 0 12px}.nextg .chip{font-size:17px}.nextg .sub{font-size:13px;font-weight:500}
+.rjb .sub{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;text-align:right}
+.tfloat{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));z-index:40;width:min(92%,520px);display:flex;align-items:center;justify-content:space-between;gap:10px;border-radius:16px;padding:12px 16px;font:inherit;border:0;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.tfloat.me{background:var(--acc);color:#fff;animation:tpulse 1.4s ease-in-out infinite;cursor:pointer}.tfloat.me b{font-size:19px}.tfloat.me em{font-style:normal;font-size:13px;font-weight:600;opacity:.9}.tfloat.me .tmr{color:#fff;font-weight:800;font-size:18px}
+.tfloat.wait{background:rgba(28,31,38,.95);color:var(--sub);font-size:14px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}.tfloat.wait em{font-style:normal;color:var(--tx);font-weight:700}.tfloat .chip{font-size:14px}
+@keyframes tpulse{0%,100%{box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 0 0 rgba(255,90,54,.6)}50%{box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 0 10px rgba(255,90,54,0)}}
+#app.ph-draft,#app.ph-fdraft{padding-bottom:96px}
+.pladder{display:flex;flex-direction:column;gap:8px}
+.pst{background:var(--card2);border-radius:12px;padding:10px 12px}.pst.cur{box-shadow:inset 0 0 0 1.5px var(--acc)}.pst.wait{opacity:.6}
+.psn{font-weight:700;font-size:15px;margin-bottom:6px;display:flex;justify-content:space-between;gap:8px}.psn span{font-size:12px;font-weight:500;color:var(--sub)}
+.psr{display:flex;align-items:center;gap:8px;padding:3px 0}.psr em{font-style:normal;font-size:12px;color:var(--sub);width:28px}.psr .chip{flex:1}.psr b{font-size:18px;min-width:28px;text-align:right}.psr b small{font-size:11px;color:var(--gold);margin-left:2px}
+.psr.w b{color:var(--good)}.psr.l{opacity:.55}
+@media (min-width:1080px){.tfloat{bottom:24px}}
 </style>
 </head>
 <body>
@@ -347,7 +379,7 @@ const Engine = (() => {
       line: [[], []], hits: [0, 0], errs: [0, 0], ptr: [0, 0], hr: 0, st: 'top', end: false, maxInn: opt.maxInn || 11,
       bat: T.map(t => t.bat.map(x => ({ id: x.id, pos: x.pos, emg: x.emg ? 1 : 0 }))),
       startBat: T.map(t => t.bat.map(x => [x.id, x.pos])),
-      bench: T.map(t => (t.bench || []).slice()), pen: T.map(t => t.pen.slice()), cp: T.map(t => t.cp || null),
+      bench: T.map(t => (t.bench || []).slice()), pen: T.map(t => t.pen.slice()), cp: T.map(t => t.cp || null), spare: T.map(t => (t.spare || []).slice()),
       out: [[], []], mound: [null, null], pit: [[], []], box: {}, log: [], leader: 0, potW: [null, null], potL: [null, null],
       inj: null, injured: [], injRate: opt.injRate == null ? 1 : opt.injRate
     };
@@ -362,6 +394,7 @@ const Engine = (() => {
     G.mound[t] = o; G.pit[t].push(o);
     const s = px(G, id); if (isStart) s.GS = 1;
     G.pen[t] = G.pen[t].filter(x => x !== id);
+    if (G.spare && G.spare[t]) G.spare[t] = G.spare[t].filter(x => x !== id);
   }
   function teamDef(G, t, H) {
     let s = 0, w = 0;
@@ -374,13 +407,22 @@ const Engine = (() => {
     const e = [k, t, G.inn, G.half, G.outs, (G.bases[0] ? 1 : 0) | (G.bases[1] ? 2 : 0) | (G.bases[2] ? 4 : 0), G.score[0], G.score[1], b || '', p || ''];
     G.log.push(e); return e;
   }
-  function chooseReliever(G, t, P) {
-    const av = G.pen[t]; if (!av.length) return null;
-    const ld = lead(G, t); const cp = G.cp[t];
+  /* 마무리는 세이브 상황(9회 이후 1~3점 앞섬)이나 연장 동점 끝내기 위기에만. 평소에는 불펜으로 운영 */
+  const saveSit = (G, t) => { const ld = lead(G, t); return G.inn >= 9 && ld >= 1 && ld <= 3; };
+  // 8회 위기: 1~3점 앞선 8회, 1아웃 이후 동점 주자가 득점권에 나가 있으면 마무리 조기 투입(4~5아웃 세이브)
+  const tight8 = (G, t) => { const ld = lead(G, t); const on = G.bases.filter(Boolean).length; return G.inn === 8 && ld >= 1 && ld <= 3 && G.outs >= 1 && G.outs < 3 && on >= ld && !!(G.bases[1] || G.bases[2]); };
+  const cpOk = (G, t) => saveSit(G, t) || tight8(G, t) || (G.inn >= 10 && lead(G, t) === 0 && t === 0 && G.half === 1);
+  function chooseReliever(G, t, P, force) {
+    const av = G.pen[t]; const ld = lead(G, t); const cp = G.cp[t];
     const val = id => { const r = P(id).r; return r.stf * 0.56 + r.ctl * 0.44; };
-    if (G.inn >= 9 && ld >= 1 && ld <= 3 && cp && av.includes(cp)) return cp;
+    if (cp && av.includes(cp) && cpOk(G, t)) return cp;
     const noCp = av.filter(id => id !== cp);
-    const list = (noCp.length ? noCp : av).slice().sort((a, b) => val(b) - val(a));
+    if (!noCp.length) {
+      const sp = (G.spare && G.spare[t]) || [];
+      if (sp.length) return sp.slice().sort((a, b) => P(b).r.sta - P(a).r.sta)[0]; // 쉬는 날 선발·지친 불펜이 롱릴리프
+      return (force && cp && av.includes(cp)) ? cp : null;
+    }
+    const list = noCp.slice().sort((a, b) => val(b) - val(a));
     if (G.inn >= 7 && Math.abs(ld) <= 3) return list[0];
     if (Math.abs(ld) >= 5) return list[list.length - 1];
     return list[Math.min(list.length - 1, Math.floor(list.length / 2))];
@@ -391,13 +433,16 @@ const Engine = (() => {
       if (m.np >= m.lim) need = true;
       else if (m.runs >= 7 || (m.runs >= 5 && m.np > 60)) need = true;
       else if (atStart && G.inn >= 9 && G.cp[t] && G.pen[t].includes(G.cp[t]) && ld >= 1 && ld <= 3 && m.np > 85) need = true;
+      else if (!atStart && G.cp[t] && G.pen[t].includes(G.cp[t]) && tight8(G, t) && m.np > 80) need = true;
     } else {
       if (m.np >= m.lim) need = true;
       else if (atStart && m.outs >= 3 && m.id !== G.cp[t]) need = true;
+      else if (m.id === G.cp[t] && atStart && m.outs >= 3 && !cpOk(G, t)) need = true;
       else if (atStart && G.inn >= 9 && G.cp[t] && m.id !== G.cp[t] && G.pen[t].includes(G.cp[t]) && ld >= 1 && ld <= 3) need = true;
+      else if (!atStart && G.cp[t] && m.id !== G.cp[t] && G.pen[t].includes(G.cp[t]) && tight8(G, t)) need = true;
     }
     if (!need) return null;
-    const nid = chooseReliever(G, t, P); if (!nid) return null;
+    const nid = chooseReliever(G, t, P, m.np >= m.lim + 30); if (!nid) return null;
     enter(G, t, nid, false, P);
     return ev(G, 'sub', `투수 교체: ${P(nid).n}`, '', nid);
   }
@@ -561,7 +606,7 @@ const Engine = (() => {
   function swapPos(G, t, a, b) { const x = G.bat[t][a], y = G.bat[t][b]; if (!x || !y) return; const p = x.pos; x.pos = y.pos; y.pos = p; }
   function setEmg(G, t, slot, emg) { if (G.bat[t][slot]) G.bat[t][slot].emg = emg ? 1 : 0; }
   function changePitcher(G, t, newId, P) {
-    if (!G.pen[t].includes(newId)) return '나올 수 없는 투수예요';
+    if (!G.pen[t].includes(newId) && !(G.spare && G.spare[t] && G.spare[t].includes(newId))) return '나올 수 없는 투수예요';
     enter(G, t, newId, false, P);
     ev(G, 'sub', `투수 교체: ${P(newId).n}`, '', newId);
     return '';
@@ -571,7 +616,7 @@ const Engine = (() => {
     const j = G.inj; if (!j) return;
     G.injured.push([j.id, j.kind]);
     if (j.kind === 'pit') {
-      const nid = chooseReliever(G, j.t, P);
+      const nid = chooseReliever(G, j.t, P, true);
       if (nid) { enter(G, j.t, nid, false, P); ev(G, 'sub', `부상 교체 — 투수: ${P(nid).n}`, '', nid); }
     } else {
       const slot = G.bat[j.t].findIndex(x => x.id === j.id);
@@ -973,6 +1018,7 @@ function draftTurn(S) {
   const o = S.draft.order;
   return round % 2 === 0 ? o[k] : o[n - 1 - k];
 }
+function draftTurnAt(S, no) { const n = S.teams.length, round = Math.floor(no / n), k = no % n, o = S.draft.order; return round % 2 === 0 ? o[k] : o[n - 1 - k]; }
 function draftTotal(S) { return S.teams.length * (S.phase === 'fdraft' ? S.settings.fslots : S.settings.roster); }
 function setPickDeadline(S) {
   const ti = draftTurn(S); const T = S.teams[ti];
@@ -1003,7 +1049,7 @@ function startSeason(S) {
 }
 const planMs = S => Math.max(90, S.settings.lineupTime * 3) * 1000;
 function startBlock(S) {
-  S.blk = { ph: 'play', start: S.day, n: 6, next: now() + 500, wk: ((S.blk && S.blk.wk) || 0) + 1 };
+  S.blk = { ph: 'play', start: S.day, n: S.post ? 99 : 6, next: now() + 500, wk: ((S.blk && S.blk.wk) || 0) + 1 };
   S.rotp = S.teams.map(() => 0);
   S.autoSnap = { ps: clone(S.ps || {}), rec: S.teams.map(t => [t.W, t.L, t.D, t.RS, t.RA]) };
   S.pause = null;
@@ -1032,9 +1078,10 @@ function teamEnv(S, ti, saved, avoid) {
   if (!sp) sp = ps.filter(id => healthy(id) && fresh(id) && id !== L.cp).sort((a, b) => PL[b].r.sta - PL[a].r.sta)[0];
   if (!sp) sp = ps[0];
   const pen = ps.filter(id => id !== sp && id !== avoid.sp && canRP(id) && healthy(id) && fresh(id) && !rot.includes(id) && !(avoid.pen || []).includes(id));
+  const spare = ps.filter(id => id !== sp && id !== avoid.sp && healthy(id) && !pen.includes(id) && !(S.pu[id] && S.pu[id][0] === day) && (rot.includes(id) ? (S.ls[id] == null || day - S.ls[id] >= 3) : true));
   const inBat = new Set(L.bat.map(x => x[0]));
   const bench = all.filter(id => PL[id].k === 'H' && healthy(id) && !inBat.has(id));
-  return { name: T.name, bat: L.bat.map(([id, pos, emg]) => ({ id, pos, emg })), sp, pen, cp: pen.includes(L.cp) ? L.cp : null, bench };
+  return { name: T.name, bat: L.bat.map(([id, pos, emg]) => ({ id, pos, emg })), sp, pen, cp: pen.includes(L.cp) ? L.cp : null, bench, spare };
 }
 function addStats(S, box) {
   for (const id in box) {
@@ -1091,13 +1138,13 @@ function prepareDay(S, members) {
       const E_h = teamEnv(S, h, lu(h)), E_a = teamEnv(S, a, lu(a));
       firstOf[key].sp = [E_a.sp, E_h.sp];
       const dh = (games || []).filter(x => x[0] === h && x[1] === a).length > 1 ? 1 : 0;
-      if (S.teams[h].ai && S.teams[a].ai) { const r = Engine.playGame(E_h, E_a, H, P, { maxInn: 11, injRate: injRate(S), eligible: eligibleAt }); firstOf[key].r = r; LVd.fin.push({ h, a, dh, r }); }
-      else LVd.games.push({ gid: k, h, a, dh, G: Engine.newGame(E_h, E_a, H, P, { maxInn: 11, injRate: injRate(S) }), pause: null, nextAt: now() + 1500 });
+      if (S.teams[h].ai && S.teams[a].ai) { const r = Engine.playGame(E_h, E_a, H, P, { maxInn: S.post ? 15 : 11, injRate: injRate(S), eligible: eligibleAt }); firstOf[key].r = r; LVd.fin.push({ h, a, dh, r }); }
+      else LVd.games.push({ gid: k, h, a, dh, G: Engine.newGame(E_h, E_a, H, P, { maxInn: S.post ? 15 : 11, injRate: injRate(S) }), pause: null, nextAt: now() + 1500 });
     } else { // 더블헤더 2차전
       const f = firstOf[key];
       if (S.teams[h].ai && S.teams[a].ai) {
         const E_h = teamEnv(S, h, null, { sp: f.sp[1], pen: usedPen(f.r.pitchers[1]) }), E_a = teamEnv(S, a, null, { sp: f.sp[0], pen: usedPen(f.r.pitchers[0]) });
-        LVd.fin.push({ h, a, dh: 2, r: Engine.playGame(E_h, E_a, H, P, { maxInn: 11, injRate: injRate(S), eligible: eligibleAt }) });
+        LVd.fin.push({ h, a, dh: 2, r: Engine.playGame(E_h, E_a, H, P, { maxInn: S.post ? 15 : 11, injRate: injRate(S), eligible: eligibleAt }) });
       } else {
         const E_h = teamEnv(S, h, lu(h), { sp: f.sp[1] }), E_a = teamEnv(S, a, lu(a), { sp: f.sp[0] });
         LVd.games.push({ gid: k, h, a, dh: 2, G: null, after: f.k, E: [E_h, E_a], pause: null, nextAt: 0 });
@@ -1113,7 +1160,7 @@ function startPending(LVd, H, P, delay) {
     if (g.G || g.after == null) return;
     const f = LVd.games.find(x => x.gid === g.after); if (!f || !f.G || !f.G.end) return;
     const [E_h, E_a] = g.E;
-    const drop = (E, list) => { const u = usedPen(list.map(o => ({ id: o.id, np: o.np }))); E.pen = E.pen.filter(id => !u.includes(id)); if (E.cp && !E.pen.includes(E.cp)) E.cp = null; };
+    const drop = (E, list) => { const u = usedPen(list.map(o => ({ id: o.id, np: o.np }))); E.pen = E.pen.filter(id => !u.includes(id)); E.spare = (E.spare || []).filter(id => !list.some(o => o.id === id)); if (E.cp && !E.pen.includes(E.cp)) E.cp = null; };
     drop(E_a, f.G.pit[0]); drop(E_h, f.G.pit[1]);
     g.G = Engine.newGame(E_h, E_a, H, P, { maxInn: 11, injRate: LVd.ir || 1 }); g.E = null; g.nextAt = now() + (delay || 0); ch = true;
   });
@@ -1132,7 +1179,12 @@ function finishDay(S, results) {
       addStats(S, r.box);
     } else {
       const se = S.post.series.find(x => !x.done && ((x.a === h && x.b === a) || (x.a === a && x.b === h)));
-      if (se && hs !== as) { const win = hs > as ? h : a; if (win === se.a) se.wa++; else se.wb++; if (se.wa >= se.need || se.wb >= se.need) { se.done = true; se.win = se.wa >= se.need ? se.a : se.b; } }
+      if (se) {
+        se.g = (se.g || 0) + 1;
+        if (hs === as) { se.d = (se.d || 0) + 1; if (S.post.key === 'wc') { se.done = true; se.win = se.a; } }
+        else { const win = hs > as ? h : a; if (win === se.a) se.wa++; else se.wb++; }
+        if (!se.done && (se.wa >= se.need || se.wb >= se.need)) { se.done = true; se.win = se.wa >= se.need ? se.a : se.b; }
+      }
     }
     [[a, r.pitchers[0]], [h, r.pitchers[1]]].forEach(([ti, list]) => list.forEach((o, i) => {
       if (i === 0) S.ls[o.id] = S.day;
@@ -1161,15 +1213,17 @@ function finishDay(S, results) {
   if (S.phase !== 'season') return;
   const humanTi = new Set(S.teams.map((t, i) => t.ai ? -1 : i));
   const hit = (S.last.ev || []).some(n => n.big && humanTi.has(n.ti));
-  const blockDone = S.day - S.blk.start >= S.blk.n || (regular && S.post);
+  const blockDone = S.day - S.blk.start >= S.blk.n || (regular && S.post) || !!(S.post && S.post.fresh);
+  if (S.post) S.post.fresh = 0;
   if (hit) {
     S.pause = { id: S.day, from: S.blk.start, to: S.day - 1, why: 'event', left: blockDone ? 0 : S.blk.n - (S.day - S.blk.start) };
     S.blk = Object.assign({}, S.blk, { ph: 'break', acks: {}, dl: now() + 90000, after: blockDone ? 'plan' : 'play' });
   } else if (blockDone) {
     S.pause = { id: S.day, from: S.blk.start, to: S.day - 1, why: regular && S.post ? 'end' : 'done', left: 0 };
-    S.blk = { ph: 'plan', start: S.day, n: 6, dl: now() + planMs(S), wk: S.blk.wk };
-  } else S.blk.next = now() + 6000;
+    S.blk = { ph: 'plan', start: S.day, n: S.post ? 99 : 6, dl: now() + planMs(S), wk: S.blk.wk };
+  } else { S.blk.fin = now(); S.blk.next = now() + GAP_MS; S.blk.go = {}; }
 }
+const GAP_MS = 120000; // 경기 사이 최대 대기 (모두 '다음 경기로'를 누르면 바로)
 function simulateDay(S, members) { // 한 번에 끝까지 (AI·테스트·방장 '바로 결과')
   const LVd = prepareDay(S, members); const { H, P } = ratingFns(S);
   for (let pass = 0; pass < 3; pass++) {
@@ -1238,27 +1292,44 @@ function runEvents(S, played, games) {
     else if (r < 0.175) { const hs = all.filter(id => PL[id].k === 'H'); if (hs.length) { const id = rnd(hs); if (setCond(S, id, 9, 5)) news(S, `${PL[id].dn} 타격 폼 교정 대성공! 5일간 크게 상승`, ti, id); } }
   });
 }
+/* ---------- 포스트시즌 (실제 KBO 계단식) ----------
+   5위 vs 4위 와일드카드 결정전(4위 1승 안고 시작, 최대 2경기, 무승부면 4위 진출)
+   → 3위와 준플레이오프(5전 3선승) → 2위와 플레이오프(5전 3선승) → 1위와 한국시리즈(7전 4선승)
+   팀 수가 적으면 아래 단계부터: 4팀 = 준PO부터, 3팀 = PO부터, 2팀 = 한국시리즈만 */
+const POST_NAME = { wc: '와일드카드 결정전', semi: '준플레이오프', po: '플레이오프', ks: '한국시리즈' };
+const POST_NEED = { wc: 2, semi: 3, po: 3, ks: 4 };
+const POST_SEED = { semi: 2, po: 1, ks: 0 }; // 그 단계에서 기다리는 순위(0=1위)
+function postStages(n) { return n >= 5 ? ['wc', 'semi', 'po', 'ks'] : n === 4 ? ['semi', 'po', 'ks'] : n === 3 ? ['po', 'ks'] : ['ks']; }
+function postHomeA(key, k) { if (key === 'wc') return true; if (key === 'ks') return k < 2 || k >= 5; return k < 2 || k === 4; }
 function endRegular(S) {
   const st = standings(S); const n = S.teams.length;
   news(S, `정규시즌 종료! 1위 ${S.teams[st[0].i].name}`);
   if (!S.settings.post || n < 2) { finish(S, st[0].i); return; }
-  const r = st.map(x => x.i);
-  if (n >= 4) S.post = { stage: '플레이오프', series: [{ a: r[0], b: r[3], wa: 0, wb: 0, need: 2 }, { a: r[1], b: r[2], wa: 0, wb: 0, need: 2 }] };
-  else if (n === 3) S.post = { stage: '플레이오프', wait: r[0], series: [{ a: r[1], b: r[2], wa: 0, wb: 0, need: 2 }] };
-  else S.post = { stage: '한국시리즈', series: [{ a: r[0], b: r[1], wa: 0, wb: 0, need: 4 }] };
-  news(S, `포스트시즌 시작 — ${S.post.stage}`);
+  const seeds = st.map(x => x.i).slice(0, 5);
+  S.post = { stages: postStages(n), idx: 0, seeds, hist: [] };
+  news(S, `포스트시즌 진출: ${seeds.slice(0, Math.min(5, n)).map((ti, k) => `${k + 1}위 ${S.teams[ti].name}`).join(' · ')}`);
+  startStage(S, null);
 }
-function postGames(S) { return S.post.series.filter(x => !x.done).map(x => [x.a, x.b]); }
+function startStage(S, prevWin) {
+  const P = S.post, key = P.stages[P.idx], r = P.seeds;
+  let a, b;
+  if (prevWin == null) { const top = key === 'wc' ? 3 : POST_SEED[key]; a = r[top]; b = r[top + 1]; }
+  else { a = r[POST_SEED[key]]; b = prevWin; }
+  P.key = key; P.stage = POST_NAME[key]; P.fresh = 1;
+  P.series = [{ a, b, wa: key === 'wc' ? 1 : 0, wb: 0, d: 0, g: 0, need: POST_NEED[key], adv: key === 'wc' ? 1 : 0 }];
+  news(S, `${P.stage} 시작 — ${S.teams[a].name}(${r.indexOf(a) + 1}위) vs ${S.teams[b].name}(${r.indexOf(b) + 1}위)${key === 'wc' ? ' · 4위가 1승을 안고 시작' : ` · ${POST_NEED[key] * 2 - 1}전 ${POST_NEED[key]}선승`}`, a, null, true);
+}
+function postGames(S) { return S.post.series.filter(x => !x.done).map(x => postHomeA(S.post.key, x.g || 0) ? [x.a, x.b] : [x.b, x.a]); }
+function seriesScore(x) { return `${x.wa - (x.adv || 0)}승 ${x.wb}승${x.d ? ' ' + x.d + '무' : ''}`; }
 function advancePost(S) {
   const P = S.post; if (P.series.some(x => !x.done)) return;
-  if (P.stage === '플레이오프') {
-    const w = P.series.map(x => x.win);
-    const pair = P.wait != null ? [P.wait, w[0]] : [w[0], w[1]];
-    const st = standings(S).map(x => x.i);
-    pair.sort((a, b) => st.indexOf(a) - st.indexOf(b));
-    news(S, `한국시리즈 대진: ${S.teams[pair[0]].name} vs ${S.teams[pair[1]].name}`);
-    S.post = { stage: '한국시리즈', prev: P.series, series: [{ a: pair[0], b: pair[1], wa: 0, wb: 0, need: 4 }] };
-  } else finish(S, P.series[0].win);
+  const x = P.series[0];
+  P.hist.push(Object.assign({ key: P.key, name: P.stage }, x));
+  const lose = x.win === x.a ? x.b : x.a;
+  news(S, `${S.teams[x.win].name} ${P.stage} 승리! (${x.win === x.a ? (x.wa - (x.adv || 0)) + '승 ' + x.wb + '패' : x.wb + '승 ' + (x.wa - (x.adv || 0)) + '패'}) ${S.teams[lose].name} 탈락`, x.win, null, true);
+  P.idx++;
+  if (P.idx >= P.stages.length) finish(S, x.win);
+  else startStage(S, x.win);
 }
 function finish(S, champ) {
   S.phase = 'done'; S.champ = champ;
@@ -1334,13 +1405,19 @@ function tradeExec(S, tr) {
   return '';
 }
 function runTrades(S) { (S.trades || []).forEach(tr => { if (tr.st === 'acc') tradeExec(S, tr); }); }
+/* AI 수락 확률: 받는 선수 가치 ÷ 주는 선수 가치 (연봉 + 능력치, 부상자는 깎음)
+   0.85배 이하 0% → 1배 약 43% → 1.2배 이상 100% */
+function tradeChance(S, from, to, give, get) {
+  const v = (ids, hurt) => ids.reduce((a, id) => a + PL[id].sal + PL[id].ovr * 0.05 - (hurt && S.inj[id] ? 1 + S.inj[id] * 0.1 : 0), 0);
+  const r = v(give, true) / Math.max(0.1, v(get, false));
+  return Math.max(0, Math.min(1, (r - 0.85) / 0.35));
+}
 function aiTradeAnswer(S, tr) {
   const err = tradeCheck(S, tr.from, tr.to, tr.give, tr.get);
   if (err) return err;
-  // AI는 받는 쪽 가치가 주는 쪽보다 5% 이상 높아야 수락
-  const vIn = tr.give.reduce((a, id) => a + PL[id].sal + PL[id].ovr * 0.05 - (S.inj[id] ? 1 + S.inj[id] * 0.1 : 0), 0);
-  const vOut = tr.get.reduce((a, id) => a + PL[id].sal + PL[id].ovr * 0.05, 0);
-  return vIn >= vOut * 1.05 ? '' : '손해 보는 트레이드라며 거절했어요';
+  const p = tradeChance(S, tr.from, tr.to, tr.give, tr.get);
+  if (Math.random() < p) return '';
+  return p <= 0 ? '손해가 너무 크다며 바로 거절했어요' : `협상 결렬 (성사 가능성 ${Math.round(p * 100)}%였어요)`;
 }
 function tradeAction(S, ti, a) {
   S.trades = S.trades || [];
@@ -1402,8 +1479,41 @@ let refetchT = null;
 function scheduleRefetch() {
   clearTimeout(refetchT);
   refetchT = setTimeout(async () => {
-    try { const r = await fetchRoom(ROOM.code); if (r && (!ROOM || r.version >= ROOM.version)) { ROOM = r; S = r.state; render(); } } catch (e) { console.error(e); }
+    if (!ROOM) return; const code = ROOM.code;
+    try { const r = await fetchRoom(code); if (r && ROOM && ROOM.code === code && r.version >= ROOM.version) { ROOM = r; S = r.state; render(); } } catch (e) { console.error(e); }
   }, 120);
+}
+function rememberRoom(code, status) {
+  let rs = LS.get('kbo_rooms', []); if (!Array.isArray(rs)) rs = [];
+  const old = rs.find(r => r.c === code) || {};
+  rs = [{ c: code, t: now(), s: status || old.s || '' }].concat(rs.filter(r => r.c !== code)).slice(0, 5);
+  LS.set('kbo_rooms', rs);
+}
+function roomStatus() {
+  if (!S) return '';
+  if (S.phase === 'season') return `${S.post ? S.post.stage : '정규시즌'} ${S.day + 1}일째${S.hold ? ' · 저장됨' : ''}`;
+  return { lobby: '대기실', draft: '드래프트', fdraft: '외국인 드래프트', done: '시즌 종료' }[S.phase] || '';
+}
+async function saveAndLeave() {
+  if (!confirm('지금까지 진행한 내용을 저장하고 나갈까요?\n다시 이 방에 들어와 [이어서 하기]를 누르면 멈춘 곳부터 계속해요.')) return;
+  if (LV) { try { await pushLive(true); } catch (e) { } }
+  await commit(ns => { if (ns.hold) return false; ns.hold = { at: now(), by: UID }; });
+  rememberRoom(ROOM.code, roomStatus().replace(' · 저장됨', '') + ' · 저장됨');
+  toast('저장했어요. 다음에 이 방으로 들어오면 이어서 할 수 있어요');
+  LV = null; if (chan) sb.removeChannel(chan); ROOM = null; S = null; UI.screen = 'home'; render();
+}
+async function resumeGame() {
+  await commit(ns => {
+    if (!ns.hold) return false;
+    delete ns.hold;
+    if (ns.draft && (ns.phase === 'draft' || ns.phase === 'fdraft')) ns.draft.deadline = now() + ns.settings.pickTime * 1000;
+    if (ns.blk) {
+      if (ns.blk.ph === 'plan') ns.blk.dl = now() + planMs(ns);
+      if (ns.blk.ph === 'break') ns.blk.dl = now() + 90000;
+      if (ns.blk.ph === 'play') { if (ns.blk.fin) { ns.blk.fin = now(); ns.blk.next = now() + GAP_MS; ns.blk.go = {}; } else ns.blk.next = now() + 3000; }
+    }
+  });
+  LV = null; UI.liveKey = null; toast('이어서 시작해요!');
 }
 async function enterRoom(code) {
   code = code.toUpperCase().trim();
@@ -1424,7 +1534,7 @@ async function enterRoom(code) {
     MEM = await fetchMembers(code);
   }
   if (S.stamp && S.stamp !== DATA_STAMP) toast('방장과 선수 데이터 파일(players.js) 버전이 달라요');
-  LS.set('kbo_last', code);
+  LS.set('kbo_last', code); rememberRoom(code);
   subscribe(code);
   UI.screen = 'room'; UI.tab = null;
   render();
@@ -1478,11 +1588,13 @@ let hostBusy = false;
 function hostKick() { if (!hostBusy) hostTick(); }
 const LIVE_ACTS = ['lpause', 'lresume', 'lspeed', 'lph', 'ldef', 'lpc', 'linj'];
 const allHumansReady = S2 => S2.teams.filter(t => !t.ai).every(t => { const m = MEM.find(x => x.uid === t.uid); return m && (m.ready_day === S2.day || (m.opts && m.opts.autoReady)); });
+const allHumansNext = S2 => S2.teams.filter(t => !t.ai).every(t => { const m = MEM.find(x => x.uid === t.uid); return (S2.blk.go || {})[t.uid] || (m && m.opts && m.opts.autoNext); });
 const allHumansAck = S2 => S2.teams.filter(t => !t.ai).every(t => { const m = MEM.find(x => x.uid === t.uid); return (S2.blk.acks || {})[t.uid] || (m && m.opts && m.opts.autoReady); });
 async function hostTick() {
   if (!isHost() || !S || hostBusy) return;
   hostBusy = true;
   try {
+    if (S.hold) { hostBusy = false; return; }
     const pend = MEM.filter(m => m.action && m.action.id && !LIVE_ACTS.includes(m.action.type) && (!S.acted || S.acted[m.uid] !== m.action.id));
     const ph = S.phase;
     let need = pend.length > 0;
@@ -1514,6 +1626,7 @@ function hostProcess(ns, pend) {
       const err = fswap(ns, ti, a.out, a.in); if (err) news(ns, `${ns.teams[ti].name} 외국인 교체 실패: ${err}`, ti);
     } else if ((a.type === 'trade' || a.type === 'tradeResp' || a.type === 'tradeCancel') && ti >= 0 && tradeOpen(ns)) {
       tradeAction(ns, ti, a);
+    } else if (a.type === 'next' && ns.blk && ns.blk.ph === 'play') { ns.blk.go = ns.blk.go || {}; ns.blk.go[m.uid] = 1;
     } else if (a.type === 'ack' && ns.blk && ns.blk.ph === 'break') { ns.blk.acks = ns.blk.acks || {}; ns.blk.acks[m.uid] = 1; }
   });
   if (ns.phase === 'draft' || ns.phase === 'fdraft') {
@@ -1533,7 +1646,7 @@ function hostProcess(ns, pend) {
   } else if (ns.phase === 'season' && ns.blk) {
     if (ns.blk.ph === 'plan' && (allHumansReady(ns) || now() > ns.blk.dl)) { startBlock(ns); changed = true; }
     else if (ns.blk.ph === 'break' && (allHumansAck(ns) || now() > ns.blk.dl)) {
-      if (ns.blk.after === 'plan') ns.blk = { ph: 'plan', start: ns.day, n: 6, dl: now() + planMs(ns), wk: ns.blk.wk };
+      if (ns.blk.after === 'plan') ns.blk = { ph: 'plan', start: ns.day, n: ns.post ? 99 : 6, dl: now() + planMs(ns), wk: ns.blk.wk };
       else ns.blk = Object.assign({}, ns.blk, { ph: 'play', next: now() + 1000, acks: {} });
       changed = true;
     }
@@ -1560,13 +1673,15 @@ async function pushLive(force) {
   if (force || now() - lastPush > 350) await go(); else pushT = setTimeout(go, 350);
 }
 async function liveTick() {
-  if (!isHost() || !S || S.phase !== 'season' || !S.blk || S.blk.ph !== 'play' || liveBusy) return;
+  if (!isHost() || !S || S.phase !== 'season' || !S.blk || S.blk.ph !== 'play' || liveBusy || S.hold) return;
   liveBusy = true;
   try {
     if (!LV || LV.day !== S.day) {
-      if (!LV) { const { data } = await sb.from('live').select('data').eq('room_code', ROOM.code).maybeSingle(); if (data && data.data && data.data.day === S.day && !data.data.final) LV = data.data; }
+      if (!LV) { const { data } = await sb.from('live').select('data').eq('room_code', ROOM.code).maybeSingle(); if (!S || !ROOM || S.hold) { liveBusy = false; return; } if (data && data.data && data.data.day === S.day && !data.data.final) { LV = data.data; LV.games.forEach(g => { g.nextAt = now() + 2500; if (g.pause) g.pause.until = Math.max(g.pause.until || 0, now() + 30000); }); } }
       if (!LV || LV.day !== S.day) {
-        if (now() < (S.blk.next || 0)) { liveBusy = false; return; }
+        if (S.hold) { liveBusy = false; return; }
+        const minWait = (S.blk.fin || 0) + 6000;
+        if (now() < (S.blk.next || 0) && !(now() >= minWait && allHumansNext(S))) { liveBusy = false; return; }
         let made = null;
         await commit(ns => { if (ns.phase !== 'season' || ns.blk.ph !== 'play' || ns.day !== S.day) return false; made = prepareDay(ns, MEM); });
         if (made) { MEM.forEach(m => { if (m.action && m.action.id) made.acted[m.uid] = m.action.id; }); LV = made; await pushLive(true); }
@@ -1697,8 +1812,8 @@ function render() {
   const ph = S.phase;
   let html = header();
   if (ph === 'lobby') html += lobbyView();
-  else if (ph === 'draft' || ph === 'fdraft') html += draftView();
-  else if (ph === 'season') { html += seasonView(); const ib = myTi() >= 0 ? tradeInbox(myTi()) : 0; if (ib > (UI._inb || 0)) toast('트레이드 제안이 왔어요 — 팀 탭에서 확인하세요'); UI._inb = ib; }
+  else if (ph === 'draft' || ph === 'fdraft') { html += draftView(); html += turnWatch(); }
+  else if (ph === 'season') { liveWatch(); html += seasonView(); const ib = myTi() >= 0 ? tradeInbox(myTi()) : 0; if (ib > (UI._inb || 0)) toast('트레이드 제안이 왔어요 — 팀 탭에서 확인하세요'); UI._inb = ib; }
   else if (ph === 'done') html += doneView();
   const samePh = UI.lastPhase === ph || (UI.lastPhase === 'draft' && ph === 'fdraft');
   if (!samePh && UI.lastPhase != null && !(UI.lastPhase === 'draft' && ph === 'fdraft')) UI.tab = null;
@@ -1725,7 +1840,8 @@ function homeView() {
     <button class="btn big wide" id="mk">새 방 만들기</button>
     <div class="or">또는</div>
     <div class="row"><input id="code" maxlength="6" placeholder="방 코드 (예: K7M2Q)" style="text-transform:uppercase"><button class="btn" id="join">입장</button></div>
-    ${last ? `<button class="btn ghost wide" id="rejoin">최근 방 다시 들어가기 (${esc(last)})</button>` : ''}
+    ${(() => { const rs = LS.get('kbo_rooms', []); const list = Array.isArray(rs) && rs.length ? rs : (last ? [{ c: last }] : []);
+      return list.length ? `<div class="lb" style="margin-top:14px">내 방 다시 들어가기</div>${list.slice(0, 5).map(r => `<button class="btn ghost wide rjb" data-rj="${esc(r.c)}"><b>${esc(r.c)}</b><span class="sub">${r.s ? esc(r.s) : ''}${r.t ? ' · ' + new Date(r.t).toLocaleString('ko-KR', { month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : ''}</span></button>`).join('')}` : ''; })()}
   </div>
   ${UI.admin ? `<div class="card adm"><div class="lb">관리 메뉴</div>
     <button class="btn ghost wide" id="gomedia">사진·로고 관리 <span class="sub">${Object.keys(MEDIA).length}개 등록됨</span></button>
@@ -1752,6 +1868,7 @@ function bindHome() {
   const gd = $('#godata'); if (gd) gd.onclick = () => { location.href = 'data.html'; };
   const ht = $('#htitle'); if (ht) ht.onclick = () => { UI.tapN = (UI.tapN || 0) + 1; clearTimeout(UI.tapT); UI.tapT = setTimeout(() => UI.tapN = 0, 1500); if (UI.tapN >= 5) { UI.tapN = 0; UI.admin = !UI.admin; render(); } };
   const rj = $('#rejoin'); if (rj) rj.onclick = async () => { if (!checkNick()) return; await enterRoom(LS.get('kbo_last', '')); };
+  document.querySelectorAll('[data-rj]').forEach(b => b.onclick = async () => { if (!checkNick()) return; await enterRoom(b.dataset.rj); });
 }
 function header() {
   const ti = myTi(); const T = ti >= 0 ? S.teams[ti] : null;
@@ -1759,8 +1876,11 @@ function header() {
   return `<div class="top">
     <div><b class="code">${esc(ROOM.code)}</b> <span class="ph">${phaseKo}</span>${isHost() ? ' <span class="hostb">방장</span>' : ''}</div>
     ${T ? `<div class="tm"><span class="dot" style="background:${col(T.color)}"></span>${esc(T.name)}</div>` : ''}
-    <button class="btn ghost sm" id="leave">나가기</button>
+    ${isHost() && ['draft', 'fdraft', 'season'].includes(S.phase) && !S.hold ? `<button class="btn ghost sm" id="saveleave">저장하고 나가기</button>` : `<button class="btn ghost sm" id="leave">나가기</button>`}
   </div>
+  ${S.hold ? `<div class="card holdc"><b>${isHost() ? '저장된 게임이에요' : '방장이 게임을 저장하고 멈췄어요'}</b>
+    <p class="sub">${S.phase === 'season' ? `${S.day + 1}일째에서 멈췄어요. ` : '드래프트 중에 멈췄어요. '}${isHost() ? '모두 들어왔으면 이어서 하기를 눌러 주세요.' : '방장이 들어와서 [이어서 하기]를 누르면 계속돼요. 그동안 라인업은 바꿀 수 있어요.'}</p>
+    <div class="row">${isHost() ? `<button class="btn big" id="resume">이어서 하기</button>` : ''}<button class="btn ghost" id="leave">나가기</button></div></div>` : ''}
   <div id="hostgone" class="warn" style="display:none">방장이 접속하지 않고 있어요. <button class="btn sm" id="takehost">내가 방장 이어받기</button></div>`;
 }
 
@@ -1889,7 +2009,7 @@ function seasonView() {
   const humans = S.teams.filter(t => !t.ai);
   const readyCnt = humans.filter(t => { const m = MEM.find(x => x.uid === t.uid); return m && (m.ready_day === S.day || (m.opts && m.opts.autoReady)); }).length;
   let body = '';
-  if (tab === 'game') body = (S.blk && S.blk.ph === 'play' && LVc && LVc.day === S.day && !LVc.final) ? `<div id="live">${liveView(my)}</div>` : gameTab(my);
+  if (tab === 'game') body = liveOn() ? `<div id="live">${liveView(my)}</div>` : gameTab(my);
   else if (tab === 'lineup') body = lineupTab(my);
   else if (tab === 'stand') body = standTab();
   else if (tab === 'stats') body = statsTab(my);
@@ -1917,6 +2037,17 @@ function seasonView() {
   else if (B.ph === 'break') card = `<div class="srow"><span class="slabel">이벤트 정리 중 · 확인하면 이어서 진행</span><span class="tmr" data-dl="${B.dl}"></span></div>
     <div class="sact"><button class="rbtn ${acks[UID] ? 'done' : ''}" id="ack" ${acks[UID] ? 'disabled' : ''}>${acks[UID] ? '확인 완료' : '확인 — 이어서 진행'}</button><span class="sub">${ackCnt}/${humans.length}명</span></div>
     <p class="note">부상 선수가 있으면 라인업 탭에서 바꿀 수 있어요. 그대로 두면 자동으로 대신할 선수가 나가요.</p>`;
+  else if (!liveOn() && S.blk.fin) { // 경기 사이: 다음 경기로 넘어가기
+    const ng = nextGameOf(my); const goCnt = humans.filter(t => (S.blk.go || {})[t.uid] || ((MEM.find(x => x.uid === t.uid) || {}).opts || {}).autoNext).length;
+    const gone = (S.blk.go || {})[UID];
+    const L2 = finalLineup(S, my, me && me.lineup); const nsp = L2.rot.length ? L2.rot[(S.rotp[my] || 0) % L2.rot.length] : null;
+    card = `<div class="srow"><span class="slabel">다음 경기 · ${S.post ? esc(S.post.stage) + ' ' + ((S.post.series[0].g || 0) + 1) + '차전' : `${(S.blk.wk || 1)}주차 ${S.day - S.blk.start + 1}/${S.blk.n}일째`}</span><span class="tmr" data-dl="${S.blk.next}"></span></div>
+    ${S.post ? '' : `<div class="prog"><i style="width:${pct}%"></i></div>`}
+    ${ng ? `<div class="nextg">${ng.home ? '홈' : '원정'} <span class="sub">vs</span> ${teamChip(ng.opp)}${nsp && PL[nsp] ? `<span class="sub">선발 예정</span> <b>${esc(PL[nsp].dn)}</b>` : ''}</div>` : '<div class="nextg sub">우리 팀은 다음 날 경기가 없어요</div>'}
+    <div class="sact"><button class="rbtn ${gone ? 'done' : ''}" id="gonext" ${gone ? 'disabled' : ''}>${gone ? '기다리는 중…' : '다음 경기로 넘어가기'}</button><span class="sub">${goCnt}/${humans.length}명</span></div>
+    <label class="tog"><input type="checkbox" id="autonext" ${me && me.opts && me.opts.autoNext ? 'checked' : ''}> 자동으로 넘기기 (경기 끝나면 바로 다음 경기)</label>
+    <p class="note">경기 사이에 <button class="lnk" data-tab="lineup">라인업</button>에서 타순·수비·선발을 바꿀 수 있어요. 모두 넘어가기를 누르거나 시간이 끝나면 시작해요.</p>`;
+  }
   else card = `<div class="srow"><span class="slabel">${S.post ? esc(S.post.stage) : `${(S.blk.wk || 1)}주차 · ${Math.min(regDone + 1, regTot)}/${regTot}일째`} · 실시간 경기</span>${S.blk.next && now() < S.blk.next ? `<span class="tmr" data-dl="${S.blk.next}"></span>` : ''}</div>${S.post ? '' : `<div class="prog"><i style="width:${pct}%"></i></div>`}`;
   const side = tab === 'stand' || tab === 'news' ? '' : sideView(my);
   return `<div class="sgrid ${side ? 'has' : ''}"><div class="sA"><div class="status">${card}</div>
@@ -1929,6 +2060,35 @@ function sideView(my) {
   const st = standings(S);
   return `<aside class="sB"><div class="card"><h4 style="margin-top:0">순위</h4><table class="mst">${st.map((x, k) => `<tr class="${x.i === my ? 'mine' : ''}"><td>${k + 1}</td><td class="tn">${teamChip(x.i)}</td><td>${x.W}-${x.L}${x.D ? '-' + x.D : ''}</td><td>${x.gb ? x.gb : '-'}</td></tr>`).join('')}</table></div>
   <div class="card"><h4 style="margin-top:0">최근 소식</h4>${(S.news || []).slice(0, 8).map(n => `<div class="nrow ${n.ti === my ? 'mine' : ''}"><span class="nd">${n.d ? n.d + '일' : ''}</span>${evCard(n, true)}</div>`).join('') || '<div class="sub">아직 소식이 없어요</div>'}</div></aside>`;
+}
+const liveOn = () => !!(S && S.phase === 'season' && S.blk && S.blk.ph === 'play' && LVc && LVc.day === S.day && !LVc.final);
+function postCard() {
+  const P = S.post; const all = [...(P.hist || []), ...(S.phase === 'season' ? P.series.map(x => Object.assign({ key: P.key, name: P.stage, cur: 1 }, x)) : [])];
+  const seed = ti => (P.seeds || []).indexOf(ti) + 1;
+  const left = P.stages.slice(P.idx + 1);
+  return `<div class="card"><h3>포스트시즌</h3><div class="pladder">${all.map(x => `<div class="pst ${x.cur ? 'cur' : ''}"><div class="psn">${esc(x.name)}<span>${x.key === 'wc' ? '4위 1승 안고 시작' : `${POST_NEED[x.key] * 2 - 1}전 ${POST_NEED[x.key]}선승`}</span></div>
+    <div class="psr ${x.done && x.win === x.a ? 'w' : x.done ? 'l' : ''}"><em>${seed(x.a)}위</em>${teamChip(x.a)}<b>${x.wa - (x.adv || 0)}${x.adv ? '<small>+1</small>' : ''}</b></div>
+    <div class="psr ${x.done && x.win === x.b ? 'w' : x.done ? 'l' : ''}"><em>${seed(x.b)}위</em>${teamChip(x.b)}<b>${x.wb}</b></div>${x.d ? `<div class="sub">무승부 ${x.d}</div>` : ''}</div>`).join('')}
+    ${S.phase === 'season' ? left.map(k => `<div class="pst wait"><div class="psn">${POST_NAME[k]}</div><div class="psr"><em>${POST_SEED[k] + 1}위</em>${teamChip(P.seeds[POST_SEED[k]])}<b>대기</b></div></div>`).join('') : ''}</div></div>`;
+}
+/* 드래프트: 내 차례가 되면 알림 + 화면 아래에 항상 보이는 '내 차례' 띠 */
+function turnWatch() {
+  const my = myTi(); if (my < 0 || S.hold) { document.title = '감독 리그'; return ''; }
+  const mine = draftTurn(S) === my;
+  const key = S.phase + ':' + S.draft.no;
+  if (mine && UI.turnKey !== key) {
+    UI.turnKey = key;
+    const me = meMember(); const auto = me && me.opts && me.opts.autoDraft;
+    toast(auto ? '내 차례 — 자동 지명이 켜져 있어요' : '내 차례예요! 선수를 지명하세요');
+    try { if (navigator.vibrate) navigator.vibrate([200, 80, 200]); } catch (e) { }
+  }
+  document.title = mine ? '● 내 차례! — 감독 리그' : '감독 리그';
+  if (!mine) {
+    const n = S.teams.length, no = S.draft.no; let k = 0;
+    for (let x = no + 1; x < no + 2 * n + 1; x++) { k++; if (draftTurnAt(S, x) === my) break; }
+    return `<div class="tfloat wait"><span>${teamChip(draftTurn(S))} 지명 중</span><em>내 차례까지 ${k}번</em></div>`;
+  }
+  return `<button class="tfloat me" id="tgo"><b>내 차례예요!</b><span class="tmr" data-dl="${S.draft.deadline}"></span><em>선수 고르러 가기 ↑</em></button>`;
 }
 function nextGameOf(ti) {
   const g = S.post ? postGames(S) : (S.sched[S.si] || []);
@@ -1981,10 +2141,7 @@ function standTab() {
   const st = standings(S);
   let html = `<div class="card"><h3>순위표</h3><div class="tbl"><table><tr><th>순위</th><th>팀</th><th>경기</th><th>승</th><th>패</th><th>무</th><th>승률</th><th>차</th><th>연속</th></tr>
   ${st.map((x, k) => `<tr class="${S.teams[x.i].uid === UID ? 'mine' : ''}"><td>${k + 1}</td><td class="tn">${teamChip(x.i)}</td><td>${x.W + x.L + x.D}</td><td>${x.W}</td><td>${x.L}</td><td>${x.D}</td><td>${avgStr(x.pct)}</td><td>${x.gb ? x.gb : '-'}</td><td>${x.st || '-'}</td></tr>`).join('')}</table></div></div>`;
-  if (S.post) {
-    const sers = [...(S.post.prev || []).map(x => ['플레이오프', x]), ...S.post.series.map(x => [S.post.stage, x])];
-    html += `<div class="card"><h3>포스트시즌</h3>${sers.map(([nm, x]) => `<div class="mem"><span class="sub">${nm}</span>${teamChip(x.a)} <b>${x.wa} : ${x.wb}</b> ${teamChip(x.b)} ${x.done ? '' : `(${x.need}승제)`}</div>`).join('')}${S.post.wait != null ? `<div class="sub">${esc(S.teams[S.post.wait].name)} 한국시리즈 직행</div>` : ''}</div>`;
-  }
+  if (S.post) html += postCard();
   const recent = (S.res || []).slice(-5).reverse();
   if (recent.length) html += `<div class="card"><h3>최근 결과</h3>${recent.map((d, k) => `<div class="sub">${S.res.length - k}일째: ${d.map(([h, a, hs, as]) => `${esc(S.teams[a].name)} ${as}:${hs} ${esc(S.teams[h].name)}`).join(' / ')}</div>`).join('')}</div>`;
   return html;
@@ -2046,7 +2203,7 @@ function tradeTab(my) {
   return `${inbox.length ? `<div class="card tin"><h3>받은 제안 ${inbox.length}건</h3>${inbox.map(x => tradeCard(x, my, `<div class="trb"><button class="btn" data-tresp="${esc(x.id)}" data-ok="1">수락</button><button class="btn ghost" data-tresp="${esc(x.id)}" data-ok="0">거절</button></div>`)).join('')}</div>` : ''}
   ${out.length ? `<div class="card"><h3>보낸 제안</h3>${out.map(x => tradeCard(x, my, `<div class="trb"><button class="btn ghost" data-tcancel="${esc(x.id)}">제안 취소</button></div>`)).join('')}</div>` : ''}
   <div class="card"><h3>새 트레이드 제안</h3>
-    <p class="note">국내 선수는 국내 선수끼리, 외국인은 외국인끼리 같은 수(최대 ${TRADE_MAX}명)로 바꿔요. 트레이드 때는 연봉 한도를 10%까지 넘을 수 있고, 필수 포지션은 지켜야 해요. AI 팀은 이득이면 바로 답해요.</p>
+    <p class="note">국내 선수는 국내 선수끼리, 외국인은 외국인끼리 같은 수(최대 ${TRADE_MAX}명)로 바꿔요. 트레이드 때는 연봉 한도를 10%까지 넘을 수 있고, 필수 포지션은 지켜야 해요. AI 구단은 몸값 차이에 따라 확률로 수락해요(아래에 가능성이 보여요).</p>
     <div class="ttabs">${others.map(i => `<button class="${i === U.to ? 'on' : ''}" data-tto="${i}" style="--tc:${col(S.teams[i].color)}">${esc(S.teams[i].name)}${S.teams[i].ai ? ' · AI' : ''}</button>`).join('')}</div>
     <div class="tcols">
       <div><h4>${esc(T.name)} → 보낼 선수</h4><div class="tlist">${pick([...T.roster, ...T.froster], U.give, 'data-tgive')}</div></div>
@@ -2055,6 +2212,7 @@ function tradeTab(my) {
     <div class="tsum"><div>보냄 <b>${U.give.length}</b>명 · ${money(sum(U.give))}</div><div>받음 <b>${U.get.length}</b>명 · ${money(sum(U.get))}</div>
       <div>트레이드 후 국내 연봉 <b>${money(payroll(T.roster) + dPay)}</b> / ${money(T.cap)} (트레이드 한도 ${money(T.cap * (1 + TRADE_SLACK))})</div></div>
     ${err ? `<div class="err">${esc(err)}</div>` : ''}
+    ${!err && O.ai && U.give.length ? (() => { const p = Math.round(tradeChance(S, my, U.to, U.give, U.get) * 100); return `<div class="tchance"><span>AI 수락 가능성</span><div class="prog"><i style="width:${p}%"></i></div><b>${p}%</b></div>`; })() : ''}
     <button class="btn big wide" id="tsend" ${err || !U.give.length ? 'disabled' : ''}>${O.ai ? '제안하기 (AI가 바로 답해요)' : `${esc(O.nick || O.name)} 감독에게 제안 보내기`}</button>
   </div>
   ${hist.length ? `<div class="card"><h3>트레이드 기록</h3>${hist.map(x => tradeCard(x, my)).join('')}</div>` : ''}`;
@@ -2138,8 +2296,11 @@ function boxModal(i) {
 /* ---------- 이벤트 연결 ---------- */
 function bindRoom() {
   const on = (sel, ev, fn) => document.querySelectorAll(sel).forEach(el => el[ev] = fn);
-  on('#leave', 'onclick', () => { if (!confirm('방에서 나갈까요? (나중에 "최근 방 다시 들어가기"로 돌아올 수 있어요)')) return; if (chan) sb.removeChannel(chan); ROOM = null; S = null; UI.screen = 'home'; render(); });
+  on('#leave', 'onclick', () => { if (!confirm('방에서 나갈까요? (나중에 "내 방 다시 들어가기"로 돌아올 수 있어요)')) return; rememberRoom(ROOM.code, roomStatus()); if (chan) sb.removeChannel(chan); ROOM = null; S = null; UI.screen = 'home'; render(); });
   on('#takehost', 'onclick', takeHost);
+  on('#saveleave', 'onclick', saveAndLeave);
+  on('#tgo', 'onclick', () => { if (UI.tab !== 'list') { UI.tab = 'list'; render(); } const el = document.querySelector('.filters') || document.querySelector('.turn'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+  on('#resume', 'onclick', resumeGame);
   on('[data-tab]', 'onclick', e => { UI.tab = e.currentTarget.dataset.tab; UI.limit = 60; render(); window.scrollTo(0, 0); });
   on('[data-pid]', 'onclick', e => { if (e.currentTarget.id === 'dopick') return; playerModal(e.currentTarget.dataset.pid); });
   on('[data-viewteam]', 'onclick', e => openModal(rosterView(+e.currentTarget.dataset.viewteam)));
@@ -2202,6 +2363,8 @@ function bindRoom() {
   if (S.phase === 'season') {
     on('#pclose', 'onclick', () => { UI.seenPause = S.pause && S.pause.id; render(); });
     on('[data-resume]', 'onclick', e => { const n = +e.currentTarget.dataset.resume; UI.seenPause = S.pause && S.pause.id; commit(ns => { ns.autoDays = n; ns.lineDeadline = now() + 800; ns.autoFrom = ns.day; ns.autoSnap = { ps: clone(ns.ps || {}), rec: ns.teams.map(t => [t.W, t.L, t.D, t.RS, t.RA]) }; ns.pause = null; }); });
+    on('#gonext', 'onclick', async () => { await sendAction({ type: 'next' }); toast('다음 경기로 — 다른 감독을 기다려요'); });
+    on('#autonext', 'onchange', async e => { const me = meMember(); await updateMe({ opts: Object.assign({}, me.opts || {}, { autoNext: e.target.checked }) }); toast(e.target.checked ? '경기가 끝나면 자동으로 넘어가요' : '자동 넘기기를 껐어요'); render(); });
     on('#ack', 'onclick', async () => { await sendAction({ type: 'ack' }); toast('확인했어요'); });
     on('#bstart', 'onclick', () => { if (!confirm('준비 안 된 감독은 지금 라인업 그대로 시작해요. 시작할까요?')) return; commit(ns => { if (ns.blk && ns.blk.ph === 'plan') startBlock(ns); else return false; }); });
     on('#autor', 'onchange', async e => { const me = meMember(); await updateMe({ opts: Object.assign({}, me.opts || {}, { autoReady: e.target.checked }) }); toast(e.target.checked ? '매 경기 자동으로 준비 완료돼요' : '자동 준비를 껐어요'); render(); });
@@ -2340,6 +2503,34 @@ function fieldView(slots, sp, opt) {
     <div class="fdh">${dh ? `<button class="fp rel" data-pid="${esc(dh[0])}">${avatar(dh[0], 40)}${condTag(dh[0])}<b>${esc(shortName(dh[0]))}</b><em>지명 · ${PL[dh[0]].ovr}</em></button>` : `<div class="fp rel empty"><span class="av eav" style="width:40px;height:40px">지명</span></div>`}</div>
   </div>`;
 }
+/* 투수진 보드: 타자 배치도처럼 선발 1~5 · 불펜 · 마무리를 사진으로 */
+function staffView(ps, rotIn, cpIn) {
+  const val = id => PL[id].ovr;
+  let rot = rotIn && rotIn.length ? rotIn.filter(id => ps.includes(id)) : ps.filter(id => canSP(id) && !canRP(id)).sort((a, b) => val(b) - val(a)).concat(ps.filter(id => canSP(id) && canRP(id)).sort((a, b) => val(b) - val(a))).slice(0, 5);
+  const cp = cpIn && ps.includes(cpIn) && !rot.includes(cpIn) ? cpIn : (ps.filter(id => !rot.includes(id) && isCP(id)).sort((a, b) => val(b) - val(a))[0] || null);
+  const pen = ps.filter(id => !rot.includes(id) && id !== cp).sort((a, b) => val(b) - val(a));
+  const card = (id, lab) => `<button class="fp rel" data-pid="${esc(id)}">${avatar(id, 42)}${condTag(id)}<b>${esc(shortName(id))}</b><em>${lab} · ${PL[id].ovr}</em></button>`;
+  const empty = lab => `<div class="fp rel empty"><span class="av eav" style="width:42px;height:42px">${lab}</span></div>`;
+  return `<div class="staff">
+    <div class="sth">선발 로테이션</div><div class="strow">${[0, 1, 2, 3, 4].map(k => rot[k] ? card(rot[k], (k + 1) + '선발') : empty((k + 1) + '선발')).join('')}</div>
+    <div class="sth">불펜 <i>${pen.length}</i></div><div class="strow wrap">${pen.map(id => card(id, POSKO[pGroup(id)] === '선발' ? '롱릴리프' : '불펜')).join('')}${[...Array(Math.max(0, 5 - pen.length))].map(() => empty('불펜')).join('')}</div>
+    <div class="sth">마무리</div><div class="strow">${cp ? card(cp, '마무리') : empty('마무리')}</div>
+  </div>`;
+}
+/* 중계용 그라운드: 수비 9명 + 주자 + 타자 */
+const BASEPOS = [[80, 66], [50, 31], [20, 66]];
+function liveField(G) {
+  const bt = G.half, ft = 1 - bt;
+  const fl = G.bat[ft].filter(x => x.pos !== 'DH').map(x => [x.id, x.pos]);
+  const pit = G.mound[ft] && G.mound[ft].id;
+  const dot = (id, x, y, cls, lab) => id && PL[id] ? `<div class="lfp ${cls}" data-pid="${esc(id)}" style="left:${x}%;top:${y}%">${avatar(id, cls === 'run' || cls === 'bat' ? 34 : 28)}<b>${esc(lab || shortName(id))}</b></div>` : '';
+  const batter = G.end ? null : G.bat[bt][G.ptr[bt] % 9];
+  return `<div class="field lfield"><div class="fgrass"></div><div class="fdia"></div><div class="fmound"></div>
+    ${fl.map(([id, pos]) => dot(id, FPOS[pos][0], FPOS[pos][1], 'def')).join('')}${dot(pit, 50, 63, "def")}
+    ${G.bases.map((id, k) => id ? dot(id, BASEPOS[k][0], BASEPOS[k][1] - 6, 'run') : '').join('')}
+    ${batter ? dot(batter.id, 62, 92, 'bat') : ''}
+  </div>`;
+}
 function miniP(id, sub) {
   return `<button class="mp" data-pid="${esc(id)}">${avatar(id, 44)}${condTag(id)}<b>${esc(shortName(id))}</b><em>${sub != null ? sub : PL[id].ovr}</em></button>`;
 }
@@ -2366,7 +2557,7 @@ function teamPanel(ti, opt) {
       <div class="tpr">${season ? `<b>${T.W}승 ${T.L}패${T.D ? ' ' + T.D + '무' : ''}</b>` : `<b>${all.length}명</b>`}<span>국내 ${money(dcap)} / ${money(T.cap)}</span></div></div>
     <div class="capbar"><i style="width:${Math.min(100, dcap / T.cap * 100)}%"></i></div>
     ${fieldView(L.bat, L.rot[0], { hideEmg: !season })}
-    ${row('선발', grp('SP'))}${row('중간', grp('RP'))}${row('마무리', grp('CP'))}${row('벤치', bench)}
+    ${staffView(ps, season ? L.rot : null, season ? L.cp : null)}${row('벤치', bench)}
     <div class="sub" style="padding:6px 4px">외국인 ${T.froster.length}명 · ${money(payroll(T.froster))} / ${money(fc)}</div>
   </div>`;
 }
@@ -2599,9 +2790,30 @@ function needBoard(ti) {
   return `<div class="nboard">
     <div class="nbt">우리 팀 포지션 <span class="sub">빈 자리를 누르면 그 포지션 선수만 보여요</span></div>
     <div class="nslots">${['LF', 'CF', 'RF', '3B', 'SS', '2B', '1B', 'C'].map(slot).join('')}</div>
+    ${(() => { const used = new Set(Object.values(mm)); const rest = hs.filter(id => !used.has(id));
+      return rest.length ? `<div class="nsub">지명타자·벤치</div><div class="nslots p">${rest.map(id => `<button class="ns sm fill" data-pid="${esc(id)}">${avatar(id, 30)}<b>${esc(shortName(id))}</b></button>`).join('')}</div>` : ''; })()}
+    ${pitchBoard(ps)}
     <div class="npills">${pill('포수', cC, 2, 'H:C')}${pill('타자', hs.length, 11, 'H:')}${pill('선발', sp, 5, 'P:SP')}${pill('불펜', rp + Math.max(0, sw - Math.max(0, 5 - (sp - sw))), 5, 'P:RP')}</div>
     ${nd.total ? `<div class="nwarn ${tight ? 'tight' : ''}">${tight ? `남은 ${left}자리 중 <b>${nd.total}자리</b>는 꼭 채워야 해요` : `꼭 채워야 할 자리 ${nd.total}개 · 남은 자리 ${left}개`}</div>` : `<div class="nwarn done">필수 자리를 모두 채웠어요. 남은 ${left}자리는 자유롭게 뽑으세요</div>`}
   </div>`;
+}
+/* 드래프트 투수 보드: 선발 5 · 불펜 · 마무리 */
+function pitchBoard(ps) {
+  const val = id => PL[id].ovr;
+  const pureSP = ps.filter(id => canSP(id) && !canRP(id)).sort((a, b) => val(b) - val(a));
+  const swing = ps.filter(id => canSP(id) && canRP(id)).sort((a, b) => val(b) - val(a));
+  const rot = pureSP.concat(swing).slice(0, 5);
+  const cps = ps.filter(id => !rot.includes(id) && isCP(id)).sort((a, b) => val(b) - val(a));
+  const cp = cps[0] || null;
+  const pen = ps.filter(id => !rot.includes(id) && id !== cp).sort((a, b) => val(b) - val(a));
+  const card = (id, tag) => `<button class="ns sm fill" data-pid="${esc(id)}">${tag ? `<span class="nsp">${tag}</span>` : ''}${avatar(id, 30)}<b>${esc(shortName(id))}</b></button>`;
+  const empty = (fp, t) => `<button class="ns sm need" data-needpos="${fp}"><i>+</i><b>${t}</b></button>`;
+  const rows = [
+    ['선발', rot.map((id, k) => card(id, k + 1 + '선발')).concat([...Array(Math.max(0, 5 - rot.length))].map(() => empty('P:SP', '선발'))), rot.length + '/5'],
+    ['불펜', pen.map(id => card(id)).concat([...Array(Math.max(0, 5 - pen.length))].map(() => empty('P:RP', '불펜'))), pen.length + '/5'],
+    ['마무리', [cp ? card(cp, '마무리') : `<button class="ns sm opt" data-needpos="P:CP"><i>+</i><b>선택</b></button>`], cp ? '1' : '없음']
+  ];
+  return rows.map(([t, cells, c]) => `<div class="nsub">${t} <em>${c}</em></div><div class="nslots p">${cells.join('')}</div>`).join('');
 }
 function needTag(id) {
   if (S.phase !== 'draft' || PL[id].f) return '';
@@ -2629,7 +2841,7 @@ function liveGameSel(my) {
 function liveView(my) {
   const g = liveGameSel(my);
   const blkDay = S.day - S.blk.start + 1;
-  let h = `<div class="lvtop"><span>${S.post ? esc(S.post.stage) : `${S.blk.wk || 1}주차`} · ${blkDay}/${S.blk.n}일째</span>${isHost() ? `<button class="lnk" data-lv="finish">오늘 경기 바로 결과</button>` : ''}</div>`;
+  let h = `<div class="lvtop"><span>${S.post ? esc(S.post.stage) + ' ' + ((S.post.series[0].g || 0) + 1) + '차전' : `${S.blk.wk || 1}주차 · ${blkDay}/${S.blk.n}일째`}</span>${isHost() ? `<button class="lnk" data-lv="finish">오늘 경기 바로 결과</button>` : ''}</div>`;
   if (LVc.games.length > 1) h += `<div class="ttabs">${LVc.games.map(x => `<button class="${x === g ? 'on' : ''}" data-lv="sel" data-gid="${x.gid}" style="--tc:${col(S.teams[x.h === my || x.a === my ? my : x.h].color)}">${x.dh ? `<em class="dh">DH${x.dh}</em>` : ''}${esc(S.teams[x.a].name)} ${x.G ? x.G.score[0] + ':' + x.G.score[1] : '대기'} ${esc(S.teams[x.h].name)}</button>`).join('')}</div>`;
   if (LVc.rain && LVc.rain.length) h += `<div class="rainbar"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M7 15a5 5 0 1 1 1.6-9.7A6 6 0 0 1 20 9a4 4 0 0 1-1 7.9H7z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 19l-1 2M12 19l-1 2M16 19l-1 2" stroke="currentColor" stroke-width="2"/></svg>우천 취소 · ${LVc.rain.map(r => `${esc(S.teams[r[1]].name)} vs ${esc(S.teams[r[0]].name)}`).join(', ')}</div>`;
   if (!g) return h + `<div class="card center sub">오늘은 사람 감독 팀 경기가 없어요. 결과를 정리 중이에요…</div>`;
@@ -2651,6 +2863,7 @@ function liveView(my) {
         <svg viewBox="0 0 60 44" class="dia"><rect class="${G.bases[1] ? 'on' : ''}" x="24" y="2" width="12" height="12" transform="rotate(45 30 8)"/><rect class="${G.bases[2] ? 'on' : ''}" x="8" y="16" width="12" height="12" transform="rotate(45 14 22)"/><rect class="${G.bases[0] ? 'on' : ''}" x="40" y="16" width="12" height="12" transform="rotate(45 46 22)"/></svg>
         <div class="outs">${[1, 2, 3].map(n => `<i class="${G.outs >= n && !G.end ? 'on' : ''}"></i>`).join('')}</div></div>
       <div class="ct r" style="--tc:${col(Hm.color)}"><b>${G.score[1]}</b><span>${esc(Hm.name)}</span></div></div>
+    ${liveField(G)}
     ${G.end ? '' : `<div class="cvs">${card(batter && batter.id, `타석 · ${S.teams[sideTi(g, bt)].name}`, `오늘 ${bline(batter && batter.id)}`, (batter && hsv(S, batter.id, 'PA') ? `시즌 ${avgStr(avgOf(S, batter.id))}` : '시즌 첫 경기'))}<span>VS</span>${card(pit && pit.id, '투수', pline(pit), (pit && psv(S, pit.id, 'OUTS') ? `ERA ${eraOf(S, pit.id).toFixed(2)}` : '시즌 첫 등판'))}</div>`}
     ${g.pause ? `<div class="lpause">${g.pause.why === 'inj' ? `${esc(PL[g.pause.id] ? PL[g.pause.id].dn : '')} 부상! ${esc(S.teams[g.pause.ti].name)} 감독이 교체 선수를 고르는 중` : `${esc(S.teams[g.pause.ti].name)} 감독 작전 타임`} · <span data-dl="${g.pause.until}"></span></div>`
       : `<div class="cnow ${cls(last[0])}">${last[0] === 'inn' ? esc(last[1]) : badge(last[0]) + ' ' + esc(last[1])}</div>`}
@@ -2675,8 +2888,24 @@ function liveControls(g, my) {
   }
   return h + '</div>';
 }
+/* 경기가 시작(또는 재개)되면 알림 + 중계 화면으로 자동 이동 */
+function liveWatch() {
+  if (!S || UI.screen !== 'room' || !liveOn()) return false;
+  const key = S.day + ':' + (S.blk.wk || 0);
+  if (UI.liveKey === key) return false;
+  UI.liveKey = key;
+  const my = myTi(); const mine = LVc.games.some(g => g.h === my || g.a === my);
+  if (S.pause) UI.seenPause = S.pause.id; // 이벤트 정리는 접고 중계로
+  if (document.querySelector('#modal.on') && !document.querySelector('#modal .lsheet')) closeModal();
+  UI.tab = 'game'; UI.lg = null;
+  toast(mine ? '경기 시작! 중계 화면으로 이동했어요' : '오늘 경기가 시작됐어요');
+  try { if (navigator.vibrate) navigator.vibrate([120, 60, 120]); } catch (e) { }
+  setTimeout(() => { const el = document.getElementById('live'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 80);
+  return true;
+}
 function renderLive() {
   if (!S || S.phase !== 'season') return;
+  if (liveWatch()) { render(); return; }
   const el = document.getElementById('live');
   const want = S.blk && S.blk.ph === 'play' && LVc && LVc.day === S.day && !LVc.final && (UI.tab || 'game') === 'game';
   if (!el) { if (want && UI.screen === 'room') render(); return; }
@@ -2693,7 +2922,7 @@ function liveSheet(kind, g) {
   let html = '';
   if (kind === 'pc' || (kind === 'inj' && g.pause && g.pause.kind === 'pit')) {
     html = `<h3>${kind === 'inj' ? `${esc(PL[g.pause.id].dn)} 부상 — 대신 던질 투수` : '투수 교체'}</h3><p class="sub">지금 투수: ${esc(PL[G.mound[side].id].dn)} · ${Math.round(G.mound[side].np)}구</p>
-      ${G.pen[side].map(id => penCard(id, `data-lsend="${kind === 'inj' ? 'linj' : 'lpc'}" data-gid="${g.gid}" data-in="${esc(id)}"`)).join('') || '<p class="sub">나올 수 있는 투수가 없어요</p>'}`;
+      ${G.pen[side].map(id => penCard(id, `data-lsend="${kind === 'inj' ? 'linj' : 'lpc'}" data-gid="${g.gid}" data-in="${esc(id)}"`)).join('') || '<p class="sub">불펜에 남은 투수가 없어요</p>'}${(G.spare && G.spare[side] || []).length ? `<h4>롱릴리프 (쉬는 선발·연투 불펜)</h4>${G.spare[side].map(id => penCard(id, `data-lsend="${kind === 'inj' ? 'linj' : 'lpc'}" data-gid="${g.gid}" data-in="${esc(id)}"`)).join('')}` : ''}`;
   } else if (kind === 'inj') {
     const slot = G.bat[side].findIndex(x => x.id === g.pause.id); const pos = slot >= 0 ? G.bat[side][slot].pos : 'DH';
     html = `<h3>${esc(PL[g.pause.id].dn)} 부상 — 대신 들어갈 선수</h3><p class="sub">${POSKO[pos]} 자리 · 그 포지션을 못 보는 선수는 수비가 약해져요</p>
