@@ -45,8 +45,12 @@
     let G = st.G, GS = st.GS;
     if (G == null) G = roleSP ? Math.max(1, Math.round(ip / (roleRP ? 3.5 : 5.5))) : Math.max(1, Math.round(ip));
     if (GS == null) GS = (ip / G >= 3.2) ? G : 0;
-    const sp = roleSP || GS >= G * 0.5;
-    let sta = sp ? 55 + ((ip / Math.max(GS, 1)) - 5) * 14 : 25 + (ip / G - 1) * 15;
+    // 선발 등판이 적은 투수(롱릴리프·마무리)는 불펜 체력으로 계산
+    const startShare = G ? GS / G : 0;
+    let sta;
+    if (GS >= 3 && startShare >= 0.5) sta = 55 + ((ip / Math.max(GS, 1)) - 5) * 14;
+    else if (GS >= 3) { const spIp = Math.min(ip, GS * 5); sta = 40 + ((spIp / GS) - 4) * 10; }
+    else sta = 25 + (ip / Math.max(G, 1) - 1) * 15 + (roleSP && !G ? 30 : 0);
     stf = reg(stf, 45, ip, 40); ctl = reg(ctl, 45, ip, 40);
     return { stf: Math.round(clamp(stf, 20, 99)), ctl: Math.round(clamp(ctl, 20, 99)), sta: Math.round(clamp(sta, 15, 95)) };
   }
@@ -65,14 +69,26 @@
     return Math.round(clamp(v, 25, 99));
   }
   function pitcherOvr(r, roles) {
-    const sp = (roles || []).includes('SP');
-    if (sp) return Math.round(clamp(50 + (r.stf * 0.47 + r.ctl * 0.35 + r.sta * 0.18 - 55) * 1.3, 25, 99));
-    return Math.round(clamp((r.stf * 0.56 + r.ctl * 0.44) * 0.8 + 8, 25, 99));
+    roles = roles || [];
+    const spV = 62 + ((r.stf * 0.47 + r.ctl * 0.35 + r.sta * 0.18) - 55) * 1.9;
+    const rpV = 55 + ((r.stf * 0.56 + r.ctl * 0.44) - 45) * 2.2;
+    let v;
+    if (roles.includes('SP') && roles.includes('RP')) v = Math.max(rpV, (spV + rpV) / 2);
+    else if (roles.includes('SP')) v = spV;
+    else v = rpV;
+    return Math.round(clamp(v, 25, 99));
   }
-  // 연봉(억 원)
-  function salary(ovr) {
-    const x = Math.max(0, ovr - 44) / 50;
-    return Math.round((0.3 + 30 * Math.pow(x, 2.4)) * 10) / 10;
+  // 연봉(억 원). kind: 'H' 타자 / 'P' 투수, roles: 투수 역할
+  function salary(ovr, kind, roles) {
+    let s;
+    if (kind === 'H') s = 0.5 + 46 * Math.pow(clamp((ovr - 38) / 55, 0, 1), 1.8);
+    else s = 0.5 + 48 * Math.pow(clamp((ovr - 42) / 53, 0, 1), 2.2);
+    if (kind === 'P') {
+      roles = roles || [];
+      if (roles.includes('CP')) s *= 1.1;            // 마무리 프리미엄
+      else if (!roles.includes('SP')) s *= 0.8;       // 중간 계투
+    }
+    return Math.round(s * 10) / 10;
   }
   G.KBORatings = { hitterRatings, pitcherRatings, hitterOvr, pitcherOvr, salary, ipToOuts, estOPS };
 })(typeof window !== 'undefined' ? window : globalThis);

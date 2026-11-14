@@ -100,7 +100,7 @@ $('#go').onclick=()=>{
     const outs=KBORatings.ipToOuts(o.st.IP);if(minpa&&outs<30)return;
     const prev=old.pitchers.find(x=>x.n===o.n&&x.t===o.t);
     const G=o.st.G||1,ipg=outs/3/G;let role;
-    if(o.st.GS!=null)role=o.st.GS>=G*0.6?['SP']:o.st.GS>0?['SP','RP']:['RP'];
+    if(o.st.GS!=null)role=o.st.GS>=G*0.6?['SP']:o.st.GS>=3?['SP','RP']:['RP']; // 선발 3경기 이상만 선발 겸용
     else role=ipg>=4.2?['SP']:ipg>=2.2?['SP','RP']:['RP'];
     if(!role.includes('SP')&&(o.st.SV||0)>=10)role=['CP'];
     pitchers.push({n:o.n,t:o.t,role,th:prev?prev.th:'R',st:o.st,v:1,f:isF(o.n)?1:0});seen.add('P'+k);
