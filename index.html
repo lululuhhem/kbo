@@ -667,7 +667,7 @@ const Engine = (() => {
     if (res === 'GO') {
       const od = dOf(bat.f);
       if (R() < 0.022 + Math.max(0, B.r.s - 55) / 280 && bat.f !== 'P') { res = '1B'; bat.t = '1B'; bat.inf = 1; }
-      else if (R() < Math.max(0.006, Math.min(0.14, 0.045 * Math.exp((50 - od) / 18)))) { res = 'E'; bat.e = 1; }
+      else if (R() < Math.max(0.006, Math.min(0.12, 0.03 * Math.exp((50 - od) / 18)))) { res = 'E'; bat.e = 1; }
       else if (R() < 0.03 + Math.max(0, od - 55) / 380) bat.n = R() < 0.3 ? 2 : 1;
     } else if (res === 'FO' || res === 'LO') {
       const od = dOf(bat.f);
@@ -692,57 +692,142 @@ const Engine = (() => {
       scoreRun(G, slot.id, slot.id);
       const dir = bat.a < -15 ? '좌월' : bat.a > 15 ? '우월' : Math.abs(bat.a) < 6 ? '중월' : bat.a < 0 ? '좌중월' : '우중월';
       e = fin('hr', `${nm}: ${dir} ${n === 4 ? '만루 홈런!!' : n + '점 홈런!'} (비거리 ${Math.round(bat.d)}m)`, bat);
-    } else if (res === '1B' || res === '2B' || res === '3B') {
-      s.AB++; s.H++; ps.H++; G.hits[bt]++;
+    } else {
+      /* ---- 수비 상세: 누가 잡아 어디로 던졌는지, 송구 실책·보살·협살·병살 ---- */
+      const NUM = { P: 1, C: 2, '1B': 3, '2B': 4, '3B': 5, SS: 6, LF: 7, CF: 8, RF: 9 };
+      const fid = pos => pos === 'P' ? m.id : ((G.bat[ft].find(o => o.pos === pos) || {}).id || null);
+      const who = pos => { const id = fid(pos); return `${FK[pos]} ${id ? H(id).n : ''}`.trim(); };
+      const armD = pos => dOf(pos);
+      const rsp = id => H(id).r.s;
+      const thrErr = (pos, k) => R() < Math.max(0.002, Math.min(0.06, (k || 0.006) * Math.exp((50 - armD(pos)) / 17)));
+      const ch = []; bat.ch = ch;
       const r3 = bases[2], r2 = bases[1], r1 = bases[0];
-      bases[0] = bases[1] = bases[2] = null;
-      const armOf = dOf(bat.f);
-      if (res === '1B') {
-        if (r3) scoreRun(G, r3, slot.id);
-        if (r2) { if (!bat.inf && R() < 0.6 + (H(r2).r.s - 50) / 150 - (armOf - 55) / 300 + (G.outs === 2 ? 0.2 : 0)) scoreRun(G, r2, slot.id); else bases[2] = r2; }
-        if (r1) { if (!bases[2] && !bat.inf && R() < 0.28 + (H(r1).r.s - 50) / 150 - (armOf - 55) / 400) bases[2] = r1; else bases[1] = r1; }
-        bases[0] = slot.id;
-        e = fin('h', bat.inf ? `${nm}: ${FK[ifAt(bat.a)]} 쪽 내야안타 — 빠른 발!` : `${nm}: ${bat.a < -15 ? '좌전' : bat.a > 15 ? '우전' : '중전'} 안타`, bat);
-      } else if (res === '2B') {
-        s['2B']++;
-        if (r3) scoreRun(G, r3, slot.id); if (r2) scoreRun(G, r2, slot.id);
-        if (r1) { if (R() < 0.42 + (H(r1).r.s - 50) / 120 + (G.outs === 2 ? 0.15 : 0)) scoreRun(G, r1, slot.id); else bases[2] = r1; }
-        bases[1] = slot.id; e = fin('h', `${nm}: ${sideTxt(bat.a)} 2루타`, bat);
-      } else {
-        s['3B']++;
-        [r1, r2, r3].forEach(r => { if (r) scoreRun(G, r, slot.id); });
-        bases[2] = slot.id; e = fin('h', `${nm}: ${sideTxt(bat.a)} 3루타!`, bat);
-      }
-    } else if (res === 'E') {
-      s.AB++; G.errs[ft]++;
-      const two = (bat.f === 'LF' || bat.f === 'CF' || bat.f === 'RF') && R() < 0.35;
-      const r3 = bases[2], r2 = bases[1], r1 = bases[0];
-      bases[0] = bases[1] = bases[2] = null;
-      if (r3) scoreRun(G, r3, null);
-      if (r2) { if (two) scoreRun(G, r2, null); else bases[2] = r2; }
-      if (r1) { if (two) bases[2] = r1; else bases[1] = r1; }
-      bases[two ? 1 : 0] = slot.id;
-      e = fin('e', `${nm}: ${FK[bat.f]} ${bat.h === 'g' ? (R() < 0.5 ? '포구 실책' : '송구 실책') : '낙구 실책'}으로 ${two ? '2루까지' : '출루'}`, bat);
-    } else if (res === 'GO') {
-      s.AB++; const pos = FK[bat.f];
-      if (bases[0] && G.outs < 2 && bat.f !== '1B' && R() < 0.44 - (B.r.s - 50) / 180) {
-        addOut(2); bases[0] = null; bat.dp = 1;
-        if (G.outs < 3) { if (bases[2]) { scoreRun(G, bases[2], null); bases[2] = null; } if (bases[1]) { bases[2] = bases[1]; bases[1] = null; } }
-        e = fin('dp', `${nm}: ${pos} 앞 병살타${nice}`, bat);
-      } else {
-        addOut(1);
-        if (G.outs < 3) {
-          if (bases[2] && R() < (bat.f === '3B' || bat.f === 'P' ? 0.25 : 0.55)) { scoreRun(G, bases[2], slot.id); bases[2] = null; }
-          if (bases[1] && !bases[2] && R() < (bat.f === '2B' || bat.f === '1B' ? 0.75 : 0.35)) { bases[2] = bases[1]; bases[1] = null; }
-          if (bases[0] && !bases[1]) { bases[1] = bases[0]; bases[0] = null; }
+      const OF = ['LF', 'CF', 'RF'].includes(bat.f);
+      const errOut = () => { G.errs[ft]++; };
+      if (res === '1B' || res === '2B' || res === '3B') {
+        s.AB++; s.H++; ps.H++; G.hits[bt]++;
+        bases[0] = bases[1] = bases[2] = null;
+        const of = bat.f; const arm = armD(of);
+        let txt = '';
+        if (res === '1B') {
+          txt = bat.inf ? `${nm}: ${FK[ifAt(bat.a)]} 쪽 내야안타 — 빠른 발!` : `${nm}: ${bat.a < -15 ? '좌전' : bat.a > 15 ? '우전' : '중전'} 안타`;
+          if (r3) scoreRun(G, r3, slot.id);
+          let homeTry = null;
+          if (r2) { const go = !bat.inf && R() < 0.62 + (rsp(r2) - 50) / 140 + (G.outs === 2 ? 0.22 : 0); if (go) homeTry = r2; else bases[2] = r2; }
+          if (r1) { if (!bases[2] && !bat.inf && R() < 0.26 + (rsp(r1) - 50) / 150 - (arm - 55) / 400) bases[2] = r1; else bases[1] = r1; }
+          bases[0] = slot.id;
+          if (homeTry) {
+            const pOut = Math.max(0.03, Math.min(0.45, 0.13 + (arm - 55) / 160 - (rsp(homeTry) - 55) / 180 + (Math.abs(bat.a) > 15 ? 0 : 0.04)));
+            if (R() < pOut) { addOut(1); ch.push([of, 'C', 'out', homeTry]); txt += ` — ${who(of)} 홈 송구! 2루 주자 ${H(homeTry).n} 홈에서 태그 아웃 (보살)`; if (!bases[1] && G.outs < 3) { bases[1] = slot.id; bases[0] = null; txt += `, 타자는 그 사이 2루까지`; } }
+            else { scoreRun(G, homeTry, slot.id); ch.push([of, 'C', 'safe', homeTry]); txt += ` — 홈 송구했지만 세이프, 2루 주자 득점`; if (!bases[1] && R() < 0.45) { bases[1] = slot.id; bases[0] = null; txt += ` (송구 틈에 타자 2루)`; } }
+          } else if (!bat.inf && OF) ch.push([of, bases[2] ? '3B' : '2B', 'cut']);
+        } else if (res === '2B') {
+          s['2B']++;
+          txt = `${nm}: ${sideTxt(bat.a)} 2루타`;
+          if (r3) scoreRun(G, r3, slot.id); if (r2) scoreRun(G, r2, slot.id);
+          bases[1] = slot.id;
+          if (r1) {
+            const cut = bat.a < 0 ? 'SS' : '2B';
+            if (R() < 0.45 + (rsp(r1) - 50) / 120 + (G.outs === 2 ? 0.15 : 0)) {
+              const pOut = Math.max(0.03, Math.min(0.4, 0.12 + (arm - 55) / 200 + (armD(cut) - 55) / 250 - (rsp(r1) - 55) / 160));
+              ch.push([of, cut, 'cut'], [cut, 'C', R() < pOut ? 'out' : 'safe', r1]);
+              if (ch[1][2] === 'out') { addOut(1); txt += ` — ${who(of)} → ${who(cut)} 중계 → 홈 송구! 1루 주자 홈에서 아웃`; }
+              else { scoreRun(G, r1, slot.id); txt += ` — 1루 주자 홈까지 쇄도, 득점!`; }
+            } else { bases[2] = r1; ch.push([of, cut, 'cut']); }
+          } else ch.push([of, bat.a < 0 ? 'SS' : '2B', 'cut']);
+        } else {
+          s['3B']++;
+          [r1, r2, r3].forEach(r => { if (r) scoreRun(G, r, slot.id); });
+          bases[2] = slot.id; txt = `${nm}: ${sideTxt(bat.a)} 3루타!`; ch.push([bat.f, bat.a < 0 ? 'SS' : '2B', 'cut'], [bat.a < 0 ? 'SS' : '2B', '3B', 'safe', slot.id]);
         }
-        e = fin('out', `${nm}: ${pos} 땅볼 아웃${nice}`, bat);
-      }
-    } else if (res === 'FO') {
-      s.AB++; addOut(1); const pos = FK[bat.f];
-      if (G.outs < 3 && bases[2] && bat.d > 60 && R() < 0.4 + (bat.d - 60) / 60 - (dOf(bat.f) - 55) / 250 && bat.n !== 3) { s.AB--; scoreRun(G, bases[2], slot.id); bases[2] = null; e = fin('sf', `${nm}: ${pos} 희생플라이${nice}`, bat); }
-      else { if (G.outs < 3 && bases[1] && !bases[2] && bat.d > 75 && R() < 0.35) { bases[2] = bases[1]; bases[1] = null; } e = fin('out', `${nm}: ${pos} 뜬공 아웃${nice}`, bat); }
-    } else { s.AB++; addOut(1); e = fin('out', `${nm}: ${FK[bat.f]} ${bat.h === 'l' ? '직선타' : '뜬공'} 아웃${nice}`, bat); }
+        // 외야수가 공을 뒤로 빠뜨림 → 한 베이스씩 더
+        if (OF && !bat.inf && R() < Math.max(0.002, Math.min(0.035, 0.006 * Math.exp((50 - arm) / 16)))) {
+          errOut(); bat.fum = 1; txt += ` — ${who(of)} 공을 뒤로 빠뜨리는 실책! 주자들 한 베이스 더`;
+          if (bases[2]) { scoreRun(G, bases[2], null); bases[2] = null; }
+          if (bases[1]) { bases[2] = bases[1]; bases[1] = null; }
+          if (bases[0]) { bases[1] = bases[0]; bases[0] = null; }
+        }
+        e = fin('h', txt, bat);
+        if (G.outs >= 3) { /* 보살로 이닝 끝 */ }
+      } else if (res === 'E') {
+        s.AB++; errOut();
+        const f = bat.f; const two = OF && R() < 0.35;
+        bases[0] = bases[1] = bases[2] = null;
+        if (r3) scoreRun(G, r3, null);
+        if (r2) { if (two) scoreRun(G, r2, null); else bases[2] = r2; }
+        if (r1) { if (two) bases[2] = r1; else bases[1] = r1; }
+        bases[two ? 1 : 0] = slot.id;
+        const how = bat.h === 'g' ? (R() < 0.55 ? '공을 더듬는 포구 실책' : '1루 악송구') : '공을 놓치는 낙구 실책';
+        if (how === '1루 악송구') ch.push([f, '1B', 'err']); else ch.push([f, null, 'err']);
+        e = fin('e', `${nm}: ${who(f)} ${how}으로 ${two ? '2루까지' : '출루'}`, bat);
+      } else if (res === 'GO') {
+        s.AB++; const f = bat.f;
+        const dpTry = r1 && G.outs < 2 && f !== '1B';
+        const pivot = f === 'SS' || f === '3B' ? '2B' : 'SS';
+        const pDP = 0.46 - (B.r.s - 50) / 180 + (bat.n ? 0.08 : 0);
+        if (dpTry && R() < pDP) {
+          // 병살 시도: 2루 포스아웃 → 1루
+          ch.push([f, pivot, 'out', r1]);
+          if (thrErr(pivot, 0.012)) { // 피벗 송구가 빠짐
+            addOut(1); errOut(); ch.push([pivot, '1B', 'err']);
+            bases[0] = null;
+            if (r3) scoreRun(G, r3, null); if (r2) scoreRun(G, r2, null);
+            bases[2] = null; bases[1] = slot.id;
+            e = fin('e', `${nm}: ${who(f)} 땅볼 → ${who(pivot)} 2루 포스아웃, 그런데 1루 송구가 빠졌어요! 타자 2루까지`, bat);
+          } else {
+            addOut(2); bases[0] = null; ch.push([pivot, '1B', 'out', slot.id]); bat.dp = 1;
+            if (G.outs < 3) { if (r3) { scoreRun(G, r3, null); bases[2] = null; } if (r2) { bases[2] = r2; bases[1] = null; } }
+            e = fin('dp', `${nm}: ${who(f)} 잡아 2루 → ${who(pivot)} 1루 송구, 병살! (${NUM[f]}-${NUM[pivot]}-3)${nice}`, bat);
+          }
+        } else if (dpTry && R() < 0.35) {
+          // 야수선택: 선행 주자만 2루에서 아웃, 타자는 1루 세이프
+          addOut(1); ch.push([f, pivot, 'out', r1]);
+          bases[0] = slot.id;
+          if (G.outs < 3) { if (r3 && R() < 0.5) { scoreRun(G, r3, slot.id); bases[2] = null; } if (r2 && !bases[2]) { bases[2] = r2; bases[1] = null; } }
+          e = fin('out', `${nm}: ${who(f)} 땅볼 → 2루 송구, 1루 주자 포스아웃 (타자는 1루 세이프)${nice}`, bat);
+        } else if (r3 && G.outs < 2 && R() < 0.2) {
+          // 3루 주자 홈 쇄도 → 협살
+          const rd = R() < 0.07; // 협살 중 실책
+          ch.push([f, 'C', 'rd', r3], ['C', '3B', 'rd', r3], ['3B', 'C', rd ? 'err' : 'out', r3]);
+          bases[2] = null;
+          if (r2) { bases[2] = r2; bases[1] = null; }
+          if (r1) { bases[1] = r1; }
+          bases[0] = slot.id;
+          if (rd) { errOut(); scoreRun(G, r3, null); e = fin('e', `${nm}: ${who(f)} 땅볼 — 3루 주자 홈으로! 협살에 걸렸는데 송구 실책으로 득점!`, bat); }
+          else { addOut(1); e = fin('out', `${nm}: ${who(f)} 땅볼 — 3루 주자 ${H(r3).n} 홈 쇄도, 3루와 홈 사이 협살로 아웃! 그 사이 타자 1루, 주자 진루`, bat); }
+        } else {
+          // 1루 송구 (송구 실책이면 타자 2루까지)
+          if (f !== '1B' && thrErr(f)) {
+            errOut(); ch.push([f, '1B', 'err']);
+            bases[0] = bases[1] = bases[2] = null;
+            if (r3) scoreRun(G, r3, null); if (r2) scoreRun(G, r2, null); if (r1) bases[2] = r1;
+            bases[1] = slot.id;
+            e = fin('e', `${nm}: ${who(f)} 땅볼 처리 후 1루 악송구! 공이 빠지는 사이 타자 2루까지`, bat);
+          } else {
+            addOut(1); ch.push(f === '1B' ? ['1B', '1B', 'out', slot.id] : [f, '1B', 'out', slot.id]);
+            if (G.outs < 3) {
+              if (r3 && R() < (f === '3B' || f === 'P' ? 0.25 : 0.55)) { scoreRun(G, r3, slot.id); bases[2] = null; }
+              if (r2 && !bases[2] && R() < (f === '2B' || f === '1B' ? 0.75 : 0.35)) { bases[2] = r2; bases[1] = null; }
+              if (r1 && !bases[1]) { bases[1] = r1; bases[0] = null; }
+            }
+            e = fin('out', f === '1B' ? `${nm}: ${who('1B')} 땅볼 잡아 직접 베이스 터치 아웃 (3U)${nice}` : f === 'P' ? `${nm}: 투수 앞 땅볼, 투수 ${H(m.id).n} 1루 송구 아웃 (1-3)${nice}` : `${nm}: ${who(f)} 땅볼, 1루 송구 아웃 (${NUM[f]}-3)${nice}`, bat);
+          }
+        }
+      } else if (res === 'FO') {
+        s.AB++; addOut(1); const f = bat.f; const arm = armD(f);
+        let txt = `${nm}: ${who(f)} ${bat.d > 95 ? '펜스 앞 ' : ''}뜬공 아웃${nice}`;
+        if (G.outs < 3 && r3 && bat.d > 55 && bat.n !== 3 && R() < 0.42 + (bat.d - 60) / 55 - (arm - 55) / 260) {
+          // 태그업 → 홈 승부
+          const pOut = Math.max(0.02, Math.min(0.35, 0.06 + (arm - 55) / 170 - (rsp(r3) - 55) / 170 - (bat.d - 70) / 220));
+          bases[2] = null;
+          if (R() < pOut) { addOut(1); ch.push([f, 'C', 'out', r3]); txt = `${nm}: ${who(f)} 뜬공 잡고 홈 송구! 태그업한 3루 주자 홈에서 아웃 — 더블 플레이!`; e = fin('dp', txt, bat); }
+          else { s.AB--; scoreRun(G, r3, slot.id); ch.push([f, 'C', 'safe', r3]); e = fin('sf', `${nm}: ${who(f)} 희생플라이 — 3루 주자 홈인${nice}`, bat); }
+        } else {
+          if (G.outs < 3 && r2 && !r3 && bat.d > 75 && R() < 0.35) { bases[2] = r2; bases[1] = null; txt += ' (2루 주자 태그업 3루)'; }
+          e = fin('out', txt, bat);
+        }
+      } else { s.AB++; addOut(1); e = fin('out', `${nm}: ${who(bat.f)} ${bat.h === 'l' ? '직선타' : '뜬공'} 아웃${nice}`, bat); }
+    }
     // 경기 중 부상 (아주 드물게)
     if (!G.inj && R() < 0.0016 * G.injRate) G.inj = R() < 0.5 ? { t: bt, id: slot.id, kind: 'bat' } : { t: ft, id: m.id, kind: 'pit' };
     return afterPA(G, e, bt, ft, auto, P);
@@ -3566,6 +3651,36 @@ const Cast3D = (() => {
       A.dur = Math.max(dur, T0 + 2.4);
       if (d.n) A.nice = d.n;
       if (d.e) A.err = 1;
+      // 수비 상세(누가 잡아 어디로 던졌는지) 그대로 그리기
+      if (d.ch && d.ch.length) {
+        const B = A.ball; const rdOn = d.ch.some(c => c[2] === 'rd');
+        const spot = (tp, kind) => {
+          if (rdOn && (tp === 'C' || tp === '3B')) return tp === 'C' ? lerp3([0, 1.3, 0], [BASE[3][0], 1.3, BASE[3][2]], 0.3) : lerp3([0, 1.3, 0], [BASE[3][0], 1.3, BASE[3][2]], 0.72);
+          if (kind === 'cut') return [lerp(FPOS[tp][0], B.land[0], 0.4), 1.3, lerp(FPOS[tp][2], B.land[2], 0.4)];
+          if (tp === 'C') return [0, 1.3, 0.5];
+          if (tp === '1B') return [BASE[1][0] - 0.5, 1.3, BASE[1][2]];
+          if (tp === '3B') return [BASE[3][0] + 0.4, 1.3, BASE[3][2]];
+          if (tp === '2B' || tp === 'SS') return [BASE[2][0], 1.3, BASE[2][2] - 0.4];
+          return FPOS[tp] ? [FPOS[tp][0], 1.3, FPOS[tp][2]] : [0, 1.3, 20];
+        };
+        let tc = T0 + B.T + (B.out ? 0.15 : 0.85);
+        let from = B.out ? [B.to[0], 1.3, B.to[2]] : [B.land[0], 1.3, B.land[2]];
+        A.thr = []; A.recv = {};
+        d.ch.forEach(([fp, tp, kind]) => {
+          if (fp === tp) return; // 직접 베이스 터치
+          if (!tp) { A.thr.push({ from, to: [from[0] + 2.5, 0.2, from[2] + 2], t0: tc, t1: tc + 0.5, kind: 'err' }); tc += 0.5; return; }
+          const to = spot(tp, kind); const dist = Math.hypot(to[0] - from[0], to[2] - from[2]);
+          const t0 = tc + (kind === 'rd' ? 0.35 : 0.2), t1 = t0 + Math.max(0.3, dist / 31);
+          const seg = { from, to, t0, t1, kind, fp, tp };
+          if (kind === 'err') { seg.over = [to[0] + (to[0] - from[0]) * 0.3, 0.15, to[2] + (to[2] - from[2]) * 0.3]; }
+          A.thr.push(seg); if (FPOS[tp] && tp !== 'C') A.recv[tp] = { spot: [to[0], 0, to[2]], t: t0 };
+          tc = t1 + (kind === 'err' ? 0.7 : 0); from = kind === 'err' ? seg.over : to;
+        });
+        A.throws = null; A.rd = rdOn;
+        A.dur = Math.max(A.dur, tc + 1.1);
+        A.big = rdOn ? (d.ch.some(c => c[2] === 'err') ? '협살 중 실책!' : '협살 아웃!') : d.ch.some(c => c[2] === 'err') ? '악송구!' : d.ch.some(c => c[1] === 'C' && c[2] === 'out' && ['LF', 'CF', 'RF', 'SS', '2B'].includes(c[0])) ? '홈 보살!' : null;
+        A.runners.forEach(r => { if (rdOn && r.out && r.from === 3) { r.rd = true; r.rdEnd = tc; } });
+      }
     } else if (k === 'sb' || k === 'cs') {
       A.dur = 2.6; A.steal = d.from != null ? d.from : 0; A.cut = 0.5;
       A.runners.forEach(r => { r.t0 = 0.35; r.sp = 9.5; if (k === 'cs') { r.out = true; r.to = r.from + 1; } });
@@ -3628,6 +3743,7 @@ const Cast3D = (() => {
       const id = fielders[pos]; if (!id) return; let P = FPOS[pos].slice(); let pose = pos === 'C' ? 'crouch' : 'ready', pt = 0, tag = null;
       if (pos === 'P' && A && A.isPA !== false) { pose = t < 0.62 ? 'pitch' : 'ready'; pt = t / 0.62; }
       if (pos === 'P' && !A) pose = 'ready';
+      if (A && A.recv && A.recv[pos] && tb > 0 && A.ball.catchPos !== pos) { const R0 = A.recv[pos]; const k = clamp(tb / Math.max(0.3, R0.t - T0), 0, 1); P = lerp3(FPOS[pos], R0.spot, ease(k)); pose = k < 1 ? 'run' : 'ready'; pt = t * 14; }
       if (A && A.ball && A.ball.catchPos === pos) {
         const B = A.ball; const goal = B.out ? B.to : B.land;
         const k = clamp((tb + 0.1) / (B.T + (B.out ? 0 : 0.7)), 0, 1);
@@ -3635,6 +3751,7 @@ const Cast3D = (() => {
         if (A.nice && tb > B.T - 0.45 && tb < B.T + 0.6) { pose = A.nice === 3 ? 'jump' : A.nice === 2 ? 'dive' : 'ready'; pt = (tb - (B.T - 0.45)) / 0.45; if (A.nice === 3) P[1] = Math.sin(clamp(pt, 0, 1) * Math.PI) * 1.6; tag = A.nice === 3 ? '점프 캐치!' : A.nice === 2 ? '다이빙 캐치!' : '호수비!'; }
         if (tb > B.T && A.throws && tb < B.T + 0.35) { pose = 'throw'; pt = (tb - B.T) / 0.35; }
       }
+      if (A && A.thr) { const sg = A.thr.find(x => x.fp === pos && t > x.t0 - 0.3 && t < x.t0 + 0.1); if (sg) { pose = 'throw'; pt = (t - (sg.t0 - 0.3)) / 0.4; } }
       items.push({ P, o: { id, col: fCol, pose, t: pt, glove: true, tag, tagCol: tag ? '#f59e0b' : null } });
     });
     // 타자
@@ -3655,6 +3772,7 @@ const Cast3D = (() => {
         shown.add(r.id);
         const k = clamp((t - r.t0) / r.tt, 0, 1);
         let P = baseRun(r.from, r.to, ease(k)); let pose = k > 0 && k < 1 ? 'run' : 'ready';
+        if (r.rd) { if (t > r.rdEnd) return; const w = 0.3 + 0.22 * Math.sin((t - r.t0) * 4.2); P = lerp3(BASE[3], [0, 0, 0], clamp(w, 0.05, 0.6)); pose = 'run'; items.push({ P, o: { id: r.id, col: bCol, pose, t: t * 13, helmet: true, tag: '협살!', tagCol: '#ef4444' } }); return; }
         if (r.batter && t < r.t0) { P = box; pose = 'bat'; }
         if (r.out && k >= 1) return;
         if (A.steal != null && k > 0.85 && k < 1) pose = 'slide';
@@ -3673,6 +3791,14 @@ const Cast3D = (() => {
       } else if (A.ball && tb >= 0) {
         const B = A.ball; trail = [];
         if (tb <= B.T) { ballP = ballPos(B, tb); for (let s = Math.max(0, tb - 0.4); s < tb; s += 0.05) trail.push(ballPos(B, s)); }
+        else if (A.thr && A.thr.length) {
+          let seg = A.thr.find(sg => t >= sg.t0 - 0.3 && t <= sg.t1 + (sg.over ? 0.7 : 0)) || (t < A.thr[0].t0 ? null : A.thr[A.thr.length - 1]);
+          if (!seg) ballP = A.ball.out ? [A.ball.to[0], 1.2, A.ball.to[2]] : [A.ball.land[0], 0.3, A.ball.land[2]];
+          else if (t < seg.t0) ballP = seg.from.slice();
+          else if (t <= seg.t1) { const f = (t - seg.t0) / (seg.t1 - seg.t0); ballP = lerp3(seg.from, seg.to, f); ballP[1] += Math.sin(f * Math.PI) * Math.min(4, Math.hypot(seg.to[0] - seg.from[0], seg.to[2] - seg.from[2]) * 0.05); }
+          else if (seg.over) { const f = clamp((t - seg.t1) / 0.7, 0, 1); ballP = lerp3(seg.to, seg.over, f); ballP[1] = 0.15 + Math.abs(Math.sin(f * 9)) * 0.5 * (1 - f); }
+          else ballP = seg.to.slice();
+        }
         else if (A.throws) { // 송구
           const q = (tb - B.T - 0.2) / 0.7; const seg = Math.floor(clamp(q, 0, A.throws.length - 0.001)); const f = clamp(q - seg, 0, 1);
           const from = seg === 0 ? [B.to[0], 1.4, B.to[2]] : [A.throws[seg - 1][0], 1.4, A.throws[seg - 1][2]];
@@ -3704,6 +3830,7 @@ const Cast3D = (() => {
       const k = A.k, d = A.d;
       let big = null, c = '#fff';
       if (k === 'hr') { big = d.sc && d.sc.length === 4 ? '만루 홈런!!' : '홈런!!'; c = '#fbbf24'; }
+      else if (A.big && A.t > (A.thr && A.thr.length ? A.thr[A.thr.length - 1].t1 - 0.1 : 1.6)) { big = A.big; c = /실책|악송구/.test(A.big) ? '#f87171' : '#f59e0b'; }
       else if (A.nice === 3 && d.rob) { big = '홈런 강탈!!'; c = '#f59e0b'; }
       else if (A.nice >= 2) { big = A.nice === 3 ? '점프 캐치!' : '다이빙 캐치!'; c = '#f59e0b'; }
       else if (k === 'k') big = '삼진!';
